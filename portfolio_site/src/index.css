@@ -2,11 +2,48 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  background-color: #212428;
+  color: #fff;
 }
 
 .page-width {
-    width: 100%;
-    max-width: 1540px;
-    margin: 0 auto;
-    padding: 0 50px;
+  width: 100%;
+  max-width: 1540px;
+  margin: 0 auto;
+  padding: 0 50px;
+}
+
+a.btn {
+  padding: 14px 25px;
+  display: inline-block;
+  text-transform: uppercase;
+  text-decoration: none;
+  position: relative;
+  background: #2e2e2e;
+  color: red;
+  border-radius: 6px;
+  transition: all ease 0.25s;
+  z-index: 1;
+}
+
+a.btn::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #000000;
+  border-radius: 6px;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  z-index: -1;
+  transition: all ease 0.25s;
+}
+
+a.btn:hover {
+  transform: translateY(-5px);
+}
+
+a.btn:hover::before {
+  opacity: 1;
 }
