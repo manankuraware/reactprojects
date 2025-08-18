@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./Header.module.css";
 import profilePic from "../assets/ai.jpg";
+import { NavLink } from "react-router";
 
 export default function Header() {
   return (
@@ -21,15 +22,27 @@ export default function Header() {
           </div>
           <div className={styles["header-col2"]}>
             <ul className={styles.navlist}>
-              <li className={styles.navitems}>Home</li>
-              <li className={styles.navitems}>features</li>
-              <li className={styles.navitems}>Portfolio</li>
-              <li className={styles.navitems}>resume</li>
-              <li className={styles.navitems}>blog</li>
-              <li className={styles.navitems}>contact</li>
+              <li className={styles.navitems}>
+                <NavLink to="/">Home</NavLink>
+              </li>
+              <li className={styles.navitems}>
+                <NavLink to="/features">features</NavLink>
+              </li>
+              <li className={styles.navitems}>
+                <NavLink to="/portfolio">Portfolio</NavLink>
+              </li>
+              <li className={styles.navitems}>
+                <NavLink to="/resume">resume</NavLink>
+              </li>
+              <li className={styles.navitems}>
+                <NavLink to="/blog">blog</NavLink>
+              </li>
+              <li className={styles.navitems}>
+                <NavLink to="/contact">contact</NavLink>
+              </li>
             </ul>
             <div className="header-button">
-              <a href="#" className="btn">
+              <a href="mailto:manankuraware2017@gmail.com" className="btn">
                 Hire now
               </a>
             </div>

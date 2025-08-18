@@ -22,9 +22,15 @@ ul.navlist {
     text-transform: uppercase;
     transition: all ease 0.2s;
 }
-.navitems:hover{
+
+.navitems a {
+    text-decoration: none;
+}
+
+.navitems:hover {
     opacity: 0.5;
 }
+
 .headerIcons {
     display: flex;
     gap: 10px;

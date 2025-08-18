@@ -1,5 +1,14 @@
 import React from "react";
+import Header from "./Header";
+import Footer from "./Footer";
+import { Outlet } from "react-router";
 
 export default function AppLayout() {
-  return <div>AppLayout</div>;
+  return (
+    <>
+      <Header />
+      <Outlet />
+      <Footer />
+    </>
+  );
 }
