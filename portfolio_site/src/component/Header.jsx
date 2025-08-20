@@ -9,7 +9,7 @@ export default function Header() {
       <nav className="header-container page-width">
         <div className={styles["header-wrapper"]}>
           <div className="header-col1">
-            <a href="/" className={styles.headerIcons}>
+            <NavLink to="/" className={styles.headerIcons}>
               <img
                 src={profilePic}
                 alt="profilePic"
@@ -18,7 +18,7 @@ export default function Header() {
                 style={{ borderRadius: "50%" }}
               />
               <span className="textlogo">Manan</span>
-            </a>
+            </NavLink>
           </div>
           <div className={styles["header-col2"]}>
             <ul className={styles.navlist}>

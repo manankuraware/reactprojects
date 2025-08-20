@@ -115,3 +115,94 @@ header.headersection {
   font-size: 13px;
   color: #bbb;
 }
+
+/* banner css  */
+.imagebnrflx {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 50px;
+  align-items: center;
+}
+
+.imgbnrlft {
+  width: calc(50% - 25px);
+}
+
+.imgbnrrght {
+  width: calc(50% - 25px);
+}
+
+.imgbnrrght img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-top-left-radius: 50%;
+}
+
+.imgbnrtxt_container h2 {
+  font-size: 62px;
+  line-height: 100%;
+  margin-block: 2rem;
+}
+
+.imgbnrtxt_container h3 {
+  font-size: 35px;
+  line-height: 100%;
+  margin-block: 2rem;
+}
+
+.typing-demo {
+  width: 22ch;
+  animation: typing 2s steps(22), blink .5s step-end infinite alternate;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 3px solid;
+  font-family: monospace;
+  font-size: 2em;
+}
+
+@keyframes typing {
+  from {
+    width: 0
+  }
+}
+
+@keyframes blink {
+  50% {
+    border-color: transparent
+  }
+}
+
+.tab-heading-container {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+}
+
+.tab-heading {
+  position: relative;
+  padding: 8px 28px;
+  transition: all ease 0.5s;
+  z-index: 1;
+  cursor: default;
+}
+
+.tab-heading::before {
+  position: absolute;
+  content: "";
+  border: 1px solid #fff;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transform: skew(-30deg);
+  z-index: -1;
+}
+
+.tab-heading:hover {
+  color: #000000;
+}
+
+.tab-heading:hover::before {
+  background: #FFFF;
+}

@@ -11,7 +11,7 @@ export default function ImageBanner() {
             <h2>
               Hi, I’m <span style={{ color: "red" }}>Manan</span>
             </h2>
-            <h3>A Professional Coder.</h3>
+            <h3 className="typing-demo">A Professional Coder..</h3>
             <div className="imgbannerdescription">
               I approach web development as more than just writing code—I see it
               as designing clarity. Every line I write is aimed at reducing
