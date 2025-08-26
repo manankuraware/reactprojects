@@ -4,6 +4,14 @@ import { Interest } from "../UI/Interest";
 import { Settings } from "../UI/Settings";
 
 export const Tabination = () => {
+  const [data, setData] = useState({
+    name: "Manan",
+    age: "24",
+    email: "zyz@gmail.com",
+    interests: ["coding", "music"],
+    theme: "dark",
+  });
+
   const [activeTab, setActiveTab] = useState(0);
   const tabs = [
     {
@@ -30,7 +38,7 @@ export const Tabination = () => {
         ))}
       </div>
       <div className="tab-content">
-        <ActiveTabComponent />
+        <ActiveTabComponent data={data} setData={setData} />
       </div>
     </div>
   );

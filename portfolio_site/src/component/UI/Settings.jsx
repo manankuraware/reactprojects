@@ -1,5 +1,21 @@
 import React from "react";
 
 export const Settings = () => {
-  return <div>Settings</div>;
+  return (
+    <div className="settings_tab_component">
+      <input type="radio" id="html" name="fav_language" value="HTML" />
+      <label htmlFor="html">HTML</label>
+      <br />
+      <input type="radio" id="css" name="fav_language" value="CSS" />
+      <label htmlFor="css">CSS</label>
+      <br />
+      <input
+        type="radio"
+        id="javascript"
+        name="fav_language"
+        value="JavaScript"
+      />
+      <label htmlFor="javascript">JavaScript</label>
+    </div>
+  );
 };

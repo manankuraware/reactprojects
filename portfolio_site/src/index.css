@@ -216,3 +216,16 @@ header.headersection {
   width: 100%;
   padding: 20px;
 }
+
+.interest_tabcomponent input,
+.settings_tab_component label {
+  display: inline-block;
+  margin-left: 10px;
+}
+
+.profiletabcontent input {
+  display: inline-block;
+  border: 1px solid #fff;
+  margin-bottom: 5px;
+  margin-left: 5px;
+}
