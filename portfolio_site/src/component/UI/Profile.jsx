@@ -1,7 +1,8 @@
 import React from "react";
 
-export const Profile = ({ data, setData }) => {
+export const Profile = ({ data, setData, errors }) => {
   const { name, age, email } = data;
+
   const handleDataChange = (e, item) => {
     setData((prevState) => ({ ...prevState, [item]: e.target.value }));
   };
@@ -13,6 +14,7 @@ export const Profile = ({ data, setData }) => {
         id="ptname"
         onChange={(e) => handleDataChange(e, "name")}
       />
+      {errors?.name && <span className="errors">{errors.name}</span>}
       <br />
       <label htmlFor="ptemail">Email:</label>
       <input
@@ -21,7 +23,7 @@ export const Profile = ({ data, setData }) => {
         onChange={(e) => handleDataChange(e, "email")}
       />
       <br />
-      <label htmlFor="age">Age</label>
+      <label htmlFor="age">Age:</label>
       <input
         type="number"
         id="age"

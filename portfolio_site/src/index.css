@@ -211,10 +211,12 @@ header.headersection {
 
 .tab-content {
   margin-top: 40px;
-  box-shadow: 0 0 1px #fff inset;
+  box-shadow: 0 0 1px #fff;
   height: 100%;
-  width: 100%;
+  width: 50%;
   padding: 20px;
+  text-align: center;
+  border-radius: 30px;
 }
 
 .interest_tabcomponent input,
@@ -229,3 +231,81 @@ header.headersection {
   margin-bottom: 5px;
   margin-left: 5px;
 }
+
+.errors {
+  color: red;
+  font-size: 12px;
+}
+
+.submit-tab {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+  gap: 10px;
+}
+
+.submit-tab button {
+  padding: 7px 13px;
+  background: white;
+  color: black;
+  text-transform: capitalize;
+  border-radius: 20px;
+}
+
+.tabwrapper {
+  padding-block: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.cust-slider-imagefull img.cust-slider-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.cust-slider-imagefull {
+  position: relative;
+}
+
+.cust-slider-txt {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 60px 30px;
+}
+
+.cust-slider-imagefull h2 {
+  font-size: 64px;
+  text-transform: capitalize;
+  line-height: 100%;
+  font-weight: 500;
+}
+
+.cust-slider-imagefull p {
+  font-size: 24px;
+  line-height: 100%;
+  text-transform: capitalize;
+  margin-block: 40px;
+}
+
+.cust-sliderbtns {
+  position: absolute;
+  right: 42px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: none;
+}
+
+button.cust-slider-btn {
+  padding: 10px;
+  border-radius: 20px;
+  border: navajowhite;
+}
+

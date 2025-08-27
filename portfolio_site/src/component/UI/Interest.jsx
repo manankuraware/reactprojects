@@ -1,16 +1,46 @@
 import React from "react";
 
-export const Interest = () => {
+export const Interest = ({ data, setData }) => {
+  const { interests } = data;
+  const handleDataChange = (e, name) => {
+    setData((prevState) => ({
+      ...prevState,
+      interests: e.target.checked
+        ? [...prevState.interests, e.target.name]
+        : prevState.interests.filter((i) => i !== e.target.name),
+    }));
+  };
   return (
     <div className="interest_tabcomponent">
-      <label htmlFor="vehicle1"> I have a bike</label>
-      <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike" />
+      <label htmlFor="coding"> I Love Coding</label>
+      <input
+        type="checkbox"
+        id="coding"
+        name="coding"
+        value="coding"
+        checked={interests.includes("coding")}
+        onChange={handleDataChange}
+      />
       <br />
-      <label htmlFor="vehicle2"> I have a car</label>
-      <input type="checkbox" id="vehicle2" name="vehicle2" value="Car" />
+      <label htmlFor="music"> I Love Music</label>
+      <input
+        type="checkbox"
+        id="music"
+        name="music"
+        value="music"
+        checked={interests.includes("music")}
+        onChange={handleDataChange}
+      />
       <br />
-      <label htmlFor="vehicle3"> I have a boat</label>
-      <input type="checkbox" id="vehicle3" name="vehicle3" value="Boat" />
+      <label htmlFor="javascript"> I Love Javascript</label>
+      <input
+        type="checkbox"
+        id="javascript"
+        name="javascript"
+        value="javascript"
+        checked={interests.includes("javascript")}
+        onChange={handleDataChange}
+      />
     </div>
   );
 };
