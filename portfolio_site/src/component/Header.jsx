@@ -26,16 +26,10 @@ export default function Header() {
                 <NavLink to="/">Home</NavLink>
               </li>
               <li className={styles.navitems}>
-                <NavLink to="/features">features</NavLink>
-              </li>
-              <li className={styles.navitems}>
-                <NavLink to="/portfolio">Portfolio</NavLink>
-              </li>
-              <li className={styles.navitems}>
                 <NavLink to="/resume">resume</NavLink>
               </li>
               <li className={styles.navitems}>
-                <NavLink to="/blog">blog</NavLink>
+                <NavLink to="/blog">Projects</NavLink>
               </li>
               <li className={styles.navitems}>
                 <NavLink to="/contact">contact</NavLink>

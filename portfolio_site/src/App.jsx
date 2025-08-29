@@ -20,17 +20,10 @@ function App() {
           element: <Home />,
         },
         {
-          path: "/portfolio",
-          element: <Portfolio />,
-        },
-        {
           path: "/resume",
           element: <Resume />,
         },
-        {
-          path: "/features",
-          element: <Features />,
-        },
+        
         {
           path: "/contact",
           element: <Contact />,
