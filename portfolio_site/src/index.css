@@ -366,6 +366,7 @@ header.headersection {
 .slider__item img {
   width: 100%;
   height: auto;
+  display: block;
 }
 
 .cust-image-relative {
@@ -405,4 +406,35 @@ header.headersection {
   left: 0;
   right: 0;
   bottom: 0;
+}
+
+.four-col-container {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  margin-block: 80px;
+  gap: 20px;
+}
+
+img.four-col-img {
+  width: 100%;
+  display: block;
+}
+
+.three-col-section {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  gap: 20px;
+  align-items: center;
+}
+
+.image-col img {
+  display: block;
+}
+
+.text-col.left {
+  text-align: left;
+}
+
+.text-col.right {
+  text-align: right;
 }
