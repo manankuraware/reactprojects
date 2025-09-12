@@ -22,4 +22,13 @@ a2 = 12;
 a2 = "Manan2";
 if (typeof a2 === "string")
     a2.toLocaleUpperCase();
+// here we defined stucture of object using interface if we create object of this structure we need to defined this structue except with ? its optional
+function abcd(obj) { }
+abcd({ name: "Manan", email: "sxyboy@gmail.com", password: "fu", gender: "male" });
+// inhertance in interface 
+function interf(obj) {
+    obj.admin = false;
+}
+interf({ name: "Manan", email: "sxyboy@gmail.com", password: "fu", gender: "male", admin: true });
+let b2;
 //# sourceMappingURL=app.js.map
