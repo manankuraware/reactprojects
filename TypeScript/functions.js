@@ -1,9 +1,15 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 function abcd(name, cb) {
     cb(name);
 }
-abcd("Manan", (value) => {
+abcd("Manan", function (value) {
     console.log(value);
 });
-//# sourceMappingURL=functions.js.map
+// rest operator
+function friends() {
+    var args = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        args[_i] = arguments[_i];
+    }
+    console.log(args);
+}
+friends("messi", "meymar", "suarez");

@@ -5,3 +5,10 @@ function abcd(name: string, cb: (value: string) => void) {
 abcd("Manan", (value) => {
   console.log(value);
 });
+
+// rest operator
+function friends(...args: string[]) {
+  console.log(args);
+}
+
+friends("messi", "meymar", "suarez");
