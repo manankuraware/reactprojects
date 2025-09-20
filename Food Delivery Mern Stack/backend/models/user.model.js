@@ -6,6 +6,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    // to ensure same email cant crate user again make it unique
     email: {
         type: String,
         required: true,
