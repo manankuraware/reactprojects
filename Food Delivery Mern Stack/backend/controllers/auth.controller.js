@@ -1,7 +1,7 @@
 import User from "../models/user.model.js";
 import genToken from "../utils/token.js";
 
-const signUp = async (req, res) => {
+export const signUp = async (req, res) => {
     try {
         const { fullName, email, password, mobile, role } = req.body;
         const user = await User.findOne({ email });
@@ -26,7 +26,55 @@ const signUp = async (req, res) => {
         })
 
         // passing mongo db user id to token 
-        const token=await genToken(user._id);
+        const token = await genToken(user._id);
+        res.cookie("token", token, {
+            // when using http use secure false 
+            secure: false,
+            // whenver secure false use same site strict 
+            sameSite: "strict",
+            maxAge: 7 * 24 * 60 * 60 * 1000,
+            httpOnly: true
+            // httpOnly: true JavaScript on frontend cannot access it (prevents XSS attacks). 
+        })
+        return res.status(201).json(user);
+    } catch (error) {
+        return res.status(500).json(`Sign up error ${error}`);
+    }
+}
+
+
+export const signIn = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(400).json({ message: "User Not Exist" })
+        }
+
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(400).json({ message: "Incorrect Password" })
+        }
+
+        // passing mongo db user id to token 
+        const token = await genToken(user._id);
+        res.cookie("token", token, {
+            // when using http use secure false 
+            secure: false,
+            // whenver secure false use same site strict 
+            sameSite: "strict",
+            maxAge: 7 * 24 * 60 * 60 * 1000,
+            httpOnly: true
+            // httpOnly: true JavaScript on frontend cannot access it (prevents XSS attacks). 
+        })
+        return res.status(200).json(user);
+    } catch (error) {
+        return res.status(500).json(`Sign in error ${error}`);
+    }
+}
+
+export const signOut = async (params) => {
+    try {
 
     } catch (error) {
 
