@@ -1,12 +1,16 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa6";
+import { FcGoogle } from "react-icons/fc";
 
 export const SignUp = () => {
   const bgColor = "#fff9f6";
   const borderColor = "#ddd";
   const [showPassword, setShowPassword] = useState(false);
   const [role, setRole] = useState("user");
+  const navigate = useNavigate();
+
   return (
     <div
       className="min-h-screen w-full flex items-center justify-center p-4"
@@ -108,12 +112,12 @@ export const SignUp = () => {
           <div className="flex gap-2">
             {["user", "owner", "delivery"].map((r) => (
               <button
-                className="flex-1 border rounded-lg px-3 py-2 text-center font-medium transition-colors capitalize"
+                className="flex-1 border rounded-lg px-3 py-2 text-center font-medium transition-colors capitalize cursor-pointer"
                 onClick={() => setRole(r)}
                 style={
                   role == r
-                    ? { backgroundColor: "#e64323", color: "white" }
-                    : { borderColor: borderColor, color: "#333" }
+                    ? { backgroundColor: "#e64323", color: "#fff" }
+                    : { borderColor: "#ff4d2d", color: "#ff4d2d" }
                 }
               >
                 {r}
@@ -121,6 +125,17 @@ export const SignUp = () => {
             ))}
           </div>
         </div>
+        <button className="w-full font-semibold py-2 rounded-lg transition duration-200 bg-[#ff4d2d] text-white hover:bg-[#e64323] cursor-pointer">
+          Sign Up
+        </button>
+        <button className="cursor-pointer w-full mt-4 flex items-center justify-center gap-2 border-rounded-lg px-4 py-2 transition duration-200 border-gray-400 hover:bg-gray-100">
+          <FcGoogle size={20} />
+          <span>Sign Up with Google</span>
+        </button>
+        <p className="text-center mt-6 cursor-pointer" onClick={() => navigate("/signin")}>
+          Already Have a Account?{" "}
+          <span className="text-[#ff4d2d]">Sign in</span>
+        </p>
       </div>
     </div>
   );
