@@ -33,7 +33,7 @@ export const SignUp = () => {
       );
       console.log(result);
     } catch (error) {
-      console.log(error);
+      console.log(error.response?.data || error.message);
     }
   };
 
