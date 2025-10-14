@@ -1,4 +1,5 @@
 import User from "../models/user.model.js";
+import { sendOtpMail } from "../utils/mail.js";
 import genToken from "../utils/token.js";
 import bcrypt from "bcryptjs";
 
@@ -81,5 +82,25 @@ export const signOut = async (req, res) => {
         return res.status(200).json({ message: "log out sucessfully" })
     } catch (error) {
         return res.status(500).json(`Sign Out error ${error}`)
+    }
+}
+
+export const sendOtp = async (req, res) => {
+    try {
+        const { email } = req.body;
+        const user = await User.findOne({ email })
+        if (!user) {
+            return res.status(400).json({ message: "user not exist" })
+        }
+        const otp = Math.floor(1000 + Math.random() * 9000).toString()
+        user.resetOtp = otp;
+        user.otpExpires = Date.now() + 5 * 60 * 1000;
+        user.isOtpVerified = false
+        await user.save()
+        await sendOtpMail(email, otp)
+        return res.status(200).json({ message: "Otp sent succesfully" })
+        // generated otp and inserted it into database 
+    } catch (error) {
+        return res.status(500).json(`Otp error ${error}`)
     }
 }
