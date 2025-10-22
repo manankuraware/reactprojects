@@ -1,3 +1,4 @@
+import { use } from "react";
 import User from "../models/user.model.js";
 import { sendOtpMail } from "../utils/mail.js";
 import genToken from "../utils/token.js";
@@ -100,6 +101,24 @@ export const sendOtp = async (req, res) => {
         await sendOtpMail(email, otp)
         return res.status(200).json({ message: "Otp sent succesfully" })
         // generated otp and inserted it into database 
+    } catch (error) {
+        return res.status(500).json(`Otp error ${error}`)
+    }
+}
+
+
+export const verifyOtp = async (req, res) => {
+    try {
+        const { email, otp } = req.body
+        const user = await User.findOne({ email })
+        if (!user || user.resetOtp != otp || user.otpExpires < Date.now()) {
+            return res.status(400).json({ message: "Invalid / Otp Expired" })
+        }
+        user.isOtpVerified = true
+        user.resetOtp = undefined
+        user.otpExpires = undefined
+        await user.save()
+        return res.status(200).json({ message: "Otp Verified succesfully" })
     } catch (error) {
         return res.status(500).json(`Otp error ${error}`)
     }
