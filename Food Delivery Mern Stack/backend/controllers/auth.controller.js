@@ -1,4 +1,4 @@
-import { use } from "react";
+
 import User from "../models/user.model.js";
 import { sendOtpMail } from "../utils/mail.js";
 import genToken from "../utils/token.js";
@@ -121,5 +121,22 @@ export const verifyOtp = async (req, res) => {
         return res.status(200).json({ message: "Otp Verified succesfully" })
     } catch (error) {
         return res.status(500).json(`Otp error ${error}`)
+    }
+}
+
+export const resetPassword = async (req, res) => {
+    try {
+        const { email, newPasword } = req.body
+        const user = await User.findOne({ email })
+        if (!user || !user.isOtpVerified) {
+            return res.status(400).json({ message: "OTP Verification Required" })
+        }
+        const hashedPassword = await bcrypt.hash(newPasword, 10)
+        user.password = hashedPassword
+        user.isOtpVerified = false
+        await user.save()
+        return res.status(200).json({ message: "Password reset succesfully" })
+    } catch (error) {
+        return res.status(500).json(`reset password error ${error}`)
     }
 }

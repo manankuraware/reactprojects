@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { IoIosArrowBack } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
+import { serverUrl } from "../App";
+import axios from "axios";
 
 export default function ForgotPassword() {
   const [step, setStep] = useState(1);
@@ -10,6 +12,48 @@ export default function ForgotPassword() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const navigate = useNavigate();
 
+  const handleSendOtp = async () => {
+    try {
+      const result = await axios.post(
+        `${serverUrl}/api/auth/send-otp`,
+        { email },
+        { withCredentials: true }
+      );
+      console.log(result);
+      setStep(2);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const handleVerifyOtp = async () => {
+    try {
+      const result = await axios.post(
+        `${serverUrl}/api/auth/verify-otp`,
+        { email, otp },
+        { withCredentials: true }
+      );
+      console.log(result);
+      setStep(3);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const handleResetPassword = async () => {
+    if (newPasword !== confirmPassword) return null;
+    try {
+      const result = await axios.post(
+        `${serverUrl}/api/auth/reset-password`,
+        { email, newPasword },
+        { withCredentials: true }
+      );
+      console.log(result);
+      navigate("/signin");
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
   return (
     <div className="flex w-full items-center justify-center min-h-screen p-4 bg-[#fff9f6]">
       <div className="bg-white rounded-xl shadow-lg w-full max-w-md p-8 ">
@@ -42,7 +86,10 @@ export default function ForgotPassword() {
                 autoComplete="true"
               />
             </div>
-            <button className="w-full font-semibold py-2 rounded-lg transition duration-200 bg-[#ff4d2d] text-white hover:bg-[#e64323] cursor-pointer">
+            <button
+              className="w-full font-semibold py-2 rounded-lg transition duration-200 bg-[#ff4d2d] text-white hover:bg-[#e64323] cursor-pointer"
+              onClick={handleSendOtp}
+            >
               Send OTP
             </button>
           </div>
@@ -66,7 +113,10 @@ export default function ForgotPassword() {
                 onChange={(e) => setOtp(e.target.value)}
               />
             </div>
-            <button className="w-full font-semibold py-2 rounded-lg transition duration-200 bg-[#ff4d2d] text-white hover:bg-[#e64323] cursor-pointer">
+            <button
+              className="w-full font-semibold py-2 rounded-lg transition duration-200 bg-[#ff4d2d] text-white hover:bg-[#e64323] cursor-pointer"
+              onClick={handleVerifyOtp}
+            >
               Verify OTP
             </button>
           </div>
@@ -106,7 +156,10 @@ export default function ForgotPassword() {
                 value={confirmPassword}
               />
             </div>
-            <button className="w-full font-semibold py-2 rounded-lg transition duration-200 bg-[#ff4d2d] text-white hover:bg-[#e64323] cursor-pointer">
+            <button
+              className="w-full font-semibold py-2 rounded-lg transition duration-200 bg-[#ff4d2d] text-white hover:bg-[#e64323] cursor-pointer"
+              onClick={handleResetPassword}
+            >
               Reset Password
             </button>
           </div>
