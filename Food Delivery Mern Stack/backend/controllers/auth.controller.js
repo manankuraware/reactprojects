@@ -140,3 +140,25 @@ export const resetPassword = async (req, res) => {
         return res.status(500).json(`reset password error ${error}`)
     }
 }
+
+export const googleAuth = async (req, res) => {
+    try {
+        const { fullName, email, mobile } = req.body
+        let user = await User.findOne({ email })
+        if (!user) {
+            user = await User.create({ fullName, email, mobile, role })
+        }
+        const token = await genToken(user._id);
+        res.cookie("token", token, {
+            // when using http use secure false 
+            secure: false,
+            // whenver secure false use same site strict 
+            sameSite: "strict",
+            maxAge: 7 * 24 * 60 * 60 * 1000,
+            httpOnly: true
+            // httpOnly: true JavaScript on frontend cannot access it (prevents XSS attacks). 
+        })
+    } catch (error) {
+
+    }
+}

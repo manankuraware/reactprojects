@@ -41,7 +41,18 @@ export const SignUp = () => {
   const handleGoogleAuth = async () => {
     const provider = new GoogleAuthProvider();
     const result = await signInWithPopup(auth, provider);
-    console.log(result);
+    try {
+      const { data } = await axios.post(
+        `${serverUrl}/api/auth/google-auth`,
+        {
+          email: result.user.email,
+        },
+        { withCredentials: true }
+      );
+      console.log(data);
+    } catch (error) {
+      console.log(error.message);
+    }
   };
   return (
     <div
@@ -76,6 +87,7 @@ export const SignUp = () => {
             style={{ border: `1px solid ${borderColor}` }}
             onChange={(e) => setFullName(e.target.value)}
             value={fullName}
+            required
           />
         </div>
         {/* email  */}
@@ -94,6 +106,7 @@ export const SignUp = () => {
             style={{ border: `1px solid ${borderColor}` }}
             onChange={(e) => setEmail(e.target.value)}
             value={email}
+            required
             autoComplete="true"
           />
         </div>
@@ -113,6 +126,7 @@ export const SignUp = () => {
             style={{ border: `1px solid ${borderColor}` }}
             onChange={(e) => setMobile(e.target.value)}
             value={mobile}
+            required
           />
         </div>
         {/* password */}

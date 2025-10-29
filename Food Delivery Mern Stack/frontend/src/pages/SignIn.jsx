@@ -66,6 +66,7 @@ function SignIn() {
             onChange={(e) => setEmail(e.target.value)}
             value={email}
             autoComplete="true"
+            required
           />
         </div>
 
