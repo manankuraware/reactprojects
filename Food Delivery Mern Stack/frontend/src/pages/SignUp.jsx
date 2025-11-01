@@ -18,6 +18,8 @@ export const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [mobile, setMobile] = useState("");
+  const [err, setErr] = useState("");
+
   const handleSignUp = async () => {
     try {
       const result = await axios.post(
@@ -34,11 +36,15 @@ export const SignUp = () => {
         }
       );
       console.log(result);
+      setErr("");
     } catch (error) {
-      console.log(error.response?.data || error.message);
+      setErr(error.response.data.message);
     }
   };
   const handleGoogleAuth = async () => {
+    if (!mobile) {
+      return setErr("Mobile number is required");
+    }
     const provider = new GoogleAuthProvider();
     const result = await signInWithPopup(auth, provider);
     try {
@@ -186,6 +192,7 @@ export const SignUp = () => {
         >
           Sign Up
         </button>
+        {err && <p className="text-red-500 text-center my-5">*{err}</p>}
         <button
           className="cursor-pointer w-full mt-4 flex items-center justify-center gap-2 border-rounded-lg px-4 py-2 transition duration-200 border-gray-400 hover:bg-gray-100"
           onClick={handleGoogleAuth}
