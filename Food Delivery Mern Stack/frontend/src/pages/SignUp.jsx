@@ -7,6 +7,7 @@ import axios from "axios";
 import { serverUrl } from "../App";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "../../utils/firebase";
+import { ClipLoader } from "react-spinners";
 
 export const SignUp = () => {
   const bgColor = "#fff9f6";
@@ -19,8 +20,10 @@ export const SignUp = () => {
   const [password, setPassword] = useState("");
   const [mobile, setMobile] = useState("");
   const [err, setErr] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSignUp = async () => {
+    setLoading(true);
     try {
       const result = await axios.post(
         `${serverUrl}/api/auth/signup`,
@@ -37,8 +40,10 @@ export const SignUp = () => {
       );
       console.log(result);
       setErr("");
+      setLoading(false);
     } catch (error) {
-      setErr(error.response.data.message);
+      setErr(error?.response?.data?.message);
+      setLoading(false);
     }
   };
   const handleGoogleAuth = async () => {
@@ -189,10 +194,11 @@ export const SignUp = () => {
         <button
           className="w-full font-semibold py-2 rounded-lg transition duration-200 bg-[#ff4d2d] text-white hover:bg-[#e64323] cursor-pointer"
           onClick={handleSignUp}
+          disabled={loading}
         >
-          Sign Up
+          {loading ? <ClipLoader size={20} color="white" /> : "Sign Up"}
         </button>
-        {err && <p className="text-red-500 text-center my-5">*{err}</p>}
+        {err && <p className="text-red-500 text-center my-1">*{err}</p>}
         <button
           className="cursor-pointer w-full mt-4 flex items-center justify-center gap-2 border-rounded-lg px-4 py-2 transition duration-200 border-gray-400 hover:bg-gray-100"
           onClick={handleGoogleAuth}

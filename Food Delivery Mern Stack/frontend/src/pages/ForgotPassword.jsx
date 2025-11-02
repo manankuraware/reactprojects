@@ -3,6 +3,7 @@ import { IoIosArrowBack } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import { serverUrl } from "../App";
 import axios from "axios";
+import { ClipLoader } from "react-spinners";
 
 export default function ForgotPassword() {
   const [step, setStep] = useState(1);
@@ -11,8 +12,11 @@ export default function ForgotPassword() {
   const [newPasword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const navigate = useNavigate();
+  const [err, setErr] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSendOtp = async () => {
+    setLoading(true);
     try {
       const result = await axios.post(
         `${serverUrl}/api/auth/send-otp`,
@@ -20,13 +24,18 @@ export default function ForgotPassword() {
         { withCredentials: true }
       );
       console.log(result);
+      setErr("");
+      setLoading(false);
       setStep(2);
     } catch (error) {
       console.log(error.message);
+      setLoading(false);
+      setErr(error?.response?.data?.message);
     }
   };
 
   const handleVerifyOtp = async () => {
+    setLoading(true);
     try {
       const result = await axios.post(
         `${serverUrl}/api/auth/verify-otp`,
@@ -34,14 +43,19 @@ export default function ForgotPassword() {
         { withCredentials: true }
       );
       console.log(result);
+      setErr("");
+      setLoading(false);
       setStep(3);
     } catch (error) {
       console.log(error.message);
+      setLoading(false);
+      setErr(error?.response?.data?.message);
     }
   };
 
   const handleResetPassword = async () => {
     if (newPasword !== confirmPassword) return null;
+    setLoading(true);
     try {
       const result = await axios.post(
         `${serverUrl}/api/auth/reset-password`,
@@ -49,9 +63,13 @@ export default function ForgotPassword() {
         { withCredentials: true }
       );
       console.log(result);
+      setErr("");
+      setLoading(false);
       navigate("/signin");
     } catch (error) {
       console.log(error.message);
+      setLoading(false);
+      setErr(error?.response?.data?.message);
     }
   };
   return (
@@ -89,9 +107,11 @@ export default function ForgotPassword() {
             <button
               className="w-full font-semibold py-2 rounded-lg transition duration-200 bg-[#ff4d2d] text-white hover:bg-[#e64323] cursor-pointer"
               onClick={handleSendOtp}
+              disabled={loading}
             >
-              Send OTP
+              {loading ? <ClipLoader size={20} color="white" /> : "Send OTP"}
             </button>
+            {err && <p className="text-red-500 text-center my-1">*{err}</p>}
           </div>
         )}
 
@@ -116,9 +136,11 @@ export default function ForgotPassword() {
             <button
               className="w-full font-semibold py-2 rounded-lg transition duration-200 bg-[#ff4d2d] text-white hover:bg-[#e64323] cursor-pointer"
               onClick={handleVerifyOtp}
+              disabled={loading}
             >
-              Verify OTP
+              {loading ? <ClipLoader size={20} color="white" /> : "Verify OTP"}
             </button>
+            {err && <p className="text-red-500 text-center my-1">*{err}</p>}
           </div>
         )}
 
@@ -159,9 +181,15 @@ export default function ForgotPassword() {
             <button
               className="w-full font-semibold py-2 rounded-lg transition duration-200 bg-[#ff4d2d] text-white hover:bg-[#e64323] cursor-pointer"
               onClick={handleResetPassword}
+              disabled={loading}
             >
-              Reset Password
+              {loading ? (
+                <ClipLoader size={20} color="white" />
+              ) : (
+                "Reset Password"
+              )}
             </button>
+            {err && <p className="text-red-500 text-center my-1">*{err}</p>}
           </div>
         )}
       </div>
