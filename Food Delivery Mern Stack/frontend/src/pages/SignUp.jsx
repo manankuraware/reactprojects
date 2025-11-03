@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa6";
@@ -8,6 +9,7 @@ import { serverUrl } from "../App";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "../../utils/firebase";
 import { ClipLoader } from "react-spinners";
+import { setUserData } from "../redux/userSlice";
 
 export const SignUp = () => {
   const bgColor = "#fff9f6";
@@ -21,6 +23,7 @@ export const SignUp = () => {
   const [mobile, setMobile] = useState("");
   const [err, setErr] = useState("");
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
   const handleSignUp = async () => {
     setLoading(true);
@@ -38,7 +41,8 @@ export const SignUp = () => {
           withCredentials: true,
         }
       );
-      console.log(result);
+      // console.log(result);
+      dispatch(setUserData(result.data));
       setErr("");
       setLoading(false);
     } catch (error) {
@@ -60,7 +64,8 @@ export const SignUp = () => {
         },
         { withCredentials: true }
       );
-      console.log(data);
+      // console.log(data);
+      dispatch(setUserData(data));
     } catch (error) {
       console.log(error.message);
     }
