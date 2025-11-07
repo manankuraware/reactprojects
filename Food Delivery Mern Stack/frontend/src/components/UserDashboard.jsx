@@ -1,7 +1,8 @@
 import React from "react";
+import Nav from "./Nav";
 
 function UserDashboard() {
-  return <div>UserDashboard</div>;
+  return <Nav />;
 }
 
 export default UserDashboard;
