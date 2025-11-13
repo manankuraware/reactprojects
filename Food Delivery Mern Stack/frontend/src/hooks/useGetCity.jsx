@@ -18,5 +18,5 @@ export default function useGetCity() {
       // console.log(result.data.results[0].city);
       dispatch(setCity(result?.data?.results[0].city));
     });
-  }, [userData]);
+  }, [userData, dispatch, apiKey]);
 }
