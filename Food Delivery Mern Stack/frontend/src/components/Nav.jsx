@@ -3,12 +3,28 @@ import { FaLocationDot } from "react-icons/fa6";
 import { IoIosSearch } from "react-icons/io";
 import { FiShoppingCart } from "react-icons/fi";
 import { RxCross2 } from "react-icons/rx";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { serverUrl } from "../App";
+import axios from "axios";
+import { setUserData } from "../redux/userSlice";
 
 export default function Nav() {
   const { userData, city } = useSelector((state) => state.user);
   const [showInfo, setShowInfo] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
+  const dispatch = useDispatch();
+
+  const handleLogout = async () => {
+    try {
+      const result = await axios.post(`${serverUrl}/api/auth/signout`, {
+        withCredentials: true,
+      });
+      console.log(result);
+      dispatch(setUserData(null));
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="w-full h-[80px] flex items-center justify-between md:justify-center gap-[30px] px-[20px] fixed top-0 z-[9999] bg-[#fff9f6] overflow-visible">
       {showSearch && (
@@ -80,7 +96,10 @@ export default function Nav() {
             <div className="md:hidden text-[#ff4d2d] font-semibold cursor-pointer">
               My Orders
             </div>
-            <div className="text-[#ff4d2d] font-semibold cursor-pointer">
+            <div
+              className="text-[#ff4d2d] font-semibold cursor-pointer"
+              onClick={handleLogout}
+            >
               Log Out
             </div>
           </div>
