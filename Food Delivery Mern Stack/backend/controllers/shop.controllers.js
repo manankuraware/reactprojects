@@ -41,3 +41,19 @@ export const createEditShop = async (req, res) => {
       .json({ message: `create shop eeror, ${error.message}` });
   }
 };
+
+export const getMyshop = async (req, res) => {
+  try {
+    const shop = await Shop.findOne({ owner: req.userId }).populate(
+      "owner items"
+    );
+    if (!shop) {
+      return null;
+    }
+    return res.status(200).json(shop);
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: `GetMyShop error, ${error.message}` });
+  }
+};

@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { serverUrl } from "../App";
 import axios from "axios";
 import { setUserData } from "../redux/userSlice";
+import { FaPlus } from "react-icons/fa";
+import { TbReceipt2 } from "react-icons/tb";
 
 export default function Nav() {
   const { userData, city } = useSelector((state) => state.user);
@@ -27,7 +29,7 @@ export default function Nav() {
   };
   return (
     <div className="w-full h-[80px] flex items-center justify-between md:justify-center gap-[30px] px-[20px] fixed top-0 z-[9999] bg-[#fff9f6] overflow-visible">
-      {showSearch && (
+      {showSearch && userData.role == "user" && (
         <div className="w-[90%] h-[70px] bg-white shadow-xl rounded-lg items-center gap-[20px] flex fixed top-[80px] left-[5%]">
           <div className="flex items-center w-[20%] overflow-hidden gap-[10px] px-[10px] border-r-[1px] border-gray-400">
             <FaLocationDot size={25} className="text-[#ff4d2d]" />
@@ -45,45 +47,77 @@ export default function Nav() {
       )}
 
       <h1 className="text-3xl font-bold mb-2 text-[#ff4d2d]">Vingo</h1>
-      <div className="md:w-[60%] lg:w-[40%] h-[70px] bg-white shadow-xl rounded-lg items-center gap-[20px] hidden md:flex">
-        <div className="flex items-center w-[20%] overflow-hidden gap-[10px] px-[10px] border-r-[1px] border-gray-400">
-          <FaLocationDot size={25} className="text-[#ff4d2d]" />
-          <div className="w-[80%] truncate text-gray-600 text-sm">{city}</div>
+      {userData.role == "user" && (
+        <div className="md:w-[60%] lg:w-[40%] h-[70px] bg-white shadow-xl rounded-lg items-center gap-[20px] hidden md:flex">
+          <div className="flex items-center w-[20%] overflow-hidden gap-[10px] px-[10px] border-r-[1px] border-gray-400">
+            <FaLocationDot size={25} className="text-[#ff4d2d]" />
+            <div className="w-[80%] truncate text-gray-600 text-sm">{city}</div>
+          </div>
+          <div className="w-[80%] flex items-center gap-[10px]">
+            <IoIosSearch size={25} className="text-[#ff4d2d]" />
+            <input
+              type="text"
+              placeholder="Search delicious food..."
+              className="px-[10px] text-gray-700 outline-0 w-full"
+            />
+          </div>
         </div>
-        <div className="w-[80%] flex items-center gap-[10px]">
-          <IoIosSearch size={25} className="text-[#ff4d2d]" />
-          <input
-            type="text"
-            placeholder="Search delicious food..."
-            className="px-[10px] text-gray-700 outline-0 w-full"
-          />
-        </div>
-      </div>
+      )}
 
       <div className="flex items-center gap-4">
-        {showSearch ? (
-          <RxCross2
-            size={25}
-            className="text-[#ff4d2d] md:hidden"
-            onClick={() => setShowSearch(false)}
-          />
+        {userData.role == "user" &&
+          (showSearch ? (
+            <RxCross2
+              size={25}
+              className="text-[#ff4d2d] md:hidden"
+              onClick={() => setShowSearch(false)}
+            />
+          ) : (
+            <IoIosSearch
+              size={25}
+              className="text-[#ff4d2d] md:hidden"
+              onClick={() => setShowSearch(true)}
+            />
+          ))}
+
+        {userData.role == "owner" ? (
+          <>
+            <button className="hidden md:flex items-center gap-1 px-2 py-1 cursor-pointer rounded-full bg-[#ff4d2d]/10 text-[#ff4d2d]">
+              <FaPlus size={16} />
+              <span>Add Food Item</span>
+            </button>
+            <button className="md:hidden flex items-center gap-1 px-2 py-1 cursor-pointer rounded-full bg-[#ff4d2d]/10 text-[#ff4d2d]">
+              <FaPlus size={16} />
+            </button>
+            <div className="hidden md:flex items-center gap-2 cursor-pointer relative px-3 py-1 rounded-lg bg-[#ff4d2d]/10 text-[#ff4d2d] font-medium">
+              <TbReceipt2 size={20} />
+              <span>My Orders</span>
+              <span className="absolute -right-2 -top-2 text-xs font-bold text-white bg-[#ff4d2d] rounded-full px-[6px] py-[1px]">
+                0
+              </span>
+            </div>
+            <div className="md:hidden flex items-center gap-2 cursor-pointer relative px-3 py-1 rounded-lg bg-[#ff4d2d]/10 text-[#ff4d2d] font-medium">
+              <TbReceipt2 size={20} />
+              <span className="absolute -right-2 -top-2 text-xs font-bold text-white bg-[#ff4d2d] rounded-full px-[6px] py-[1px]">
+                0
+              </span>
+            </div>
+          </>
         ) : (
-          <IoIosSearch
-            size={25}
-            className="text-[#ff4d2d] md:hidden"
-            onClick={() => setShowSearch(true)}
-          />
+          <>
+            <div className="relative cursor-pointer">
+              <FiShoppingCart size={25} className="text-[#ff4d2d]" />
+              <span className="absolute right-[-9px] top-[-12px] text-[#ff4d2d]">
+                0
+              </span>
+            </div>
+
+            <button className="hidden md:block px-3 py-1 rounded-lg bg-[#ff4d2d]/10 text-[#ff4d2d] text-sm font-medium">
+              My Orders
+            </button>
+          </>
         )}
 
-        <div className="relative cursor-pointer">
-          <FiShoppingCart size={25} className="text-[#ff4d2d]" />
-          <span className="absolute right-[-9px] top-[-12px] text-[#ff4d2d]">
-            0
-          </span>
-        </div>
-        <button className="hidden md:block px-3 py-1 rounded-lg bg-[#ff4d2d]/10 text-[#ff4d2d] text-sm font-medium">
-          My Orders
-        </button>
         <div
           className="w-[40px] aspect-square rounded-full flex items-center justify-center bg-[#ff4d2d] text-white text-[18px] shadow-xl font-semibold cursor-pointer"
           onClick={() => setShowInfo((prev) => !prev)}
