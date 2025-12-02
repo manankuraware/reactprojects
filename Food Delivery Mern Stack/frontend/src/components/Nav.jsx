@@ -12,6 +12,7 @@ import { TbReceipt2 } from "react-icons/tb";
 
 export default function Nav() {
   const { userData, city } = useSelector((state) => state.user);
+  const { myShopData } = useSelector((state) => state.owner);
   const [showInfo, setShowInfo] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const dispatch = useDispatch();
@@ -82,13 +83,18 @@ export default function Nav() {
 
         {userData.role == "owner" ? (
           <>
-            <button className="hidden md:flex items-center gap-1 px-2 py-1 cursor-pointer rounded-full bg-[#ff4d2d]/10 text-[#ff4d2d]">
-              <FaPlus size={16} />
-              <span>Add Food Item</span>
-            </button>
-            <button className="md:hidden flex items-center gap-1 px-2 py-1 cursor-pointer rounded-full bg-[#ff4d2d]/10 text-[#ff4d2d]">
-              <FaPlus size={16} />
-            </button>
+            {myShopData && (
+              <>
+                <button className="hidden md:flex items-center gap-1 px-2 py-1 cursor-pointer rounded-full bg-[#ff4d2d]/10 text-[#ff4d2d]">
+                  <FaPlus size={16} />
+                  <span>Add Food Item</span>
+                </button>
+                <button className="md:hidden flex items-center gap-1 px-2 py-1 cursor-pointer rounded-full bg-[#ff4d2d]/10 text-[#ff4d2d]">
+                  <FaPlus size={16} />
+                </button>
+              </>
+            )}
+
             <div className="hidden md:flex items-center gap-2 cursor-pointer relative px-3 py-1 rounded-lg bg-[#ff4d2d]/10 text-[#ff4d2d] font-medium">
               <TbReceipt2 size={20} />
               <span>My Orders</span>
