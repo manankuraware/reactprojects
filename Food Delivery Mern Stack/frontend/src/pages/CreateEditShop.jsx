@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { FaUtensils } from "react-icons/fa";
@@ -7,6 +7,15 @@ import { useSelector } from "react-redux";
 const CreateEditShop = () => {
   const navigate = useNavigate();
   const { myShopData } = useSelector((state) => state.owner);
+  const { currentCity, currentState, currentAddress } = useSelector(
+    (state) => state.user
+  );
+  
+  const [name, setName] = useState(myShopData?.name || "");
+  const [address, setAddress] = useState(myShopData?.address || currentAddress);
+  const [city, setCity] = useState(myShopData?.city || currentCity);
+  const [state, setState] = useState(myShopData?.state || currentState);
+
   return (
     <div className="flex justify-center items-center flex-col p-6 bg-gradient-to-br from-orange-50 relative to-white min-h-screen">
       <div
@@ -37,6 +46,8 @@ const CreateEditShop = () => {
               type="text"
               placeholder="Enter Shop Name"
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-orange-500"
+              onChange={(e) => setName(e.target.value)}
+              value={name}
             />
           </div>
           <div>
@@ -53,6 +64,42 @@ const CreateEditShop = () => {
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-orange-500"
             />
           </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label
+                htmlFor="addedshopcity"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
+                City:
+              </label>
+              <input
+                id="addedshopcity"
+                type="text"
+                placeholder="Enter Shop City"
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-orange-500"
+                onChange={(e) => setCity(e.target.value)}
+                value={city}
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="addedshopstate"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
+                State:
+              </label>
+              <input
+                id="addedshopstate"
+                type="text"
+                placeholder="Enter Shop State"
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-orange-500"
+                onChange={(e) => setState(e.target.value)}
+                value={state}
+              />
+            </div>
+          </div>
+
           <div>
             <label
               htmlFor="addedshopaddress"
@@ -63,10 +110,15 @@ const CreateEditShop = () => {
             <input
               id="addedshopaddress"
               type="text"
-              placeholder="Address"
+              placeholder="Enter Shop Address"
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-orange-500"
+              onChange={(e) => setAddress(e.target.value)}
+              value={address}
             />
           </div>
+          <button className="w-full bg-[#ff4d2d] text-white px-6 py-3 rounded-lg font-semibold shadow-md hover:bg-orange-600 hover:shadow-lg transition-all duration-200 cursor-pointer">
+            Save
+          </button>
         </form>
       </div>
     </div>
