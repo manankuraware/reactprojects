@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { FaUtensils } from "react-icons/fa";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { serverUrl } from "../App";
+import axios from "axios";
+import { setMyShopData } from "../redux/ownerSlice";
 
 const CreateEditShop = () => {
   const navigate = useNavigate();
@@ -10,12 +13,41 @@ const CreateEditShop = () => {
   const { currentCity, currentState, currentAddress } = useSelector(
     (state) => state.user
   );
-  
+
   const [name, setName] = useState(myShopData?.name || "");
   const [address, setAddress] = useState(myShopData?.address || currentAddress);
   const [city, setCity] = useState(myShopData?.city || currentCity);
   const [state, setState] = useState(myShopData?.state || currentState);
-
+  const [frontendImage, setFrontendImage] = useState(myShopData?.image || null);
+  const [backendImage, setBackendImage] = useState(null);
+  const handleImage = (e) => {
+    const file = e.target.files[0];
+    setBackendImage(file);
+    setFrontendImage(URL.createObjectURL(file));
+  };
+  const dispatch = useDispatch();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("city", city);
+      formData.append("state", state);
+      formData.append("address", address);
+      if (backendImage) {
+        formData.append("image", backendImage);
+      }
+      const result = await axios.post(
+        `${serverUrl}/api/shop/create-edit`,
+        formData,
+        { withCredentials: true }
+      );
+      dispatch(setMyShopData(result.data));
+      console.log(result.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="flex justify-center items-center flex-col p-6 bg-gradient-to-br from-orange-50 relative to-white min-h-screen">
       <div
@@ -33,7 +65,7 @@ const CreateEditShop = () => {
             {myShopData ? "Edit Shop" : "Add Shop"}
           </div>
         </div>
-        <form className="space-y-5">
+        <form className="space-y-5" onSubmit={handleSubmit}>
           <div>
             <label
               htmlFor="addedshopname"
@@ -62,7 +94,17 @@ const CreateEditShop = () => {
               type="file"
               accept="image/*"
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-orange-500"
+              onChange={handleImage}
             />
+            {frontendImage && (
+              <div className="mt-4">
+                <img
+                  src={frontendImage}
+                  alt="item image"
+                  className="w-full h-48 object-cover rounded-lg border"
+                />
+              </div>
+            )}
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
