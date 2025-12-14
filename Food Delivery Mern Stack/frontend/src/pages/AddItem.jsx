@@ -30,16 +30,20 @@ function AddItem() {
     try {
       const formData = new FormData();
       formData.append("name", name);
+      formData.append("category", category);
+      formData.append("foodType", foodType);
+      formData.append("price", price);
 
       if (backendImage) {
         formData.append("image", backendImage);
       }
       const result = await axios.post(
-        `${serverUrl}/api/shop/create-edit`,
+        `${serverUrl}/api/item/add-item`,
         formData,
         { withCredentials: true }
       );
       dispatch(setMyShopData(result.data));
+      console.log(result.data);
     } catch (error) {
       console.log(error);
     }
@@ -139,7 +143,7 @@ function AddItem() {
               ))}
             </select>
           </div>
-          
+
           <div>
             <label
               htmlFor="addedshopfoodtype"
