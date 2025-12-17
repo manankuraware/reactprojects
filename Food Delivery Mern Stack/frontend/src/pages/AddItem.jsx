@@ -43,7 +43,7 @@ function AddItem() {
         { withCredentials: true }
       );
       dispatch(setMyShopData(result.data));
-      console.log(result.data);
+      // console.log(result.data);
     } catch (error) {
       console.log(error);
     }
@@ -159,7 +159,7 @@ function AddItem() {
               value={foodType}
             >
               <option value="veg">Veg</option>
-              <option value="non-veg">Non-Veg</option>
+              <option value="nonveg">Non-Veg</option>
             </select>
           </div>
 

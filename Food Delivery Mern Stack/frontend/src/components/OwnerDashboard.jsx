@@ -3,6 +3,7 @@ import Nav from "./Nav";
 import { FaUtensils } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { FaPen } from "react-icons/fa";
+import OwnerItemcard from "./OwnerItemcard";
 
 function OwnerDashboard() {
   const { myShopData } = useSelector((state) => state.owner);
@@ -72,8 +73,8 @@ function OwnerDashboard() {
                     Add Your Food Item
                   </h2>
                   <p className="text-gray-600 mb-4 text-sm sm:text-base">
-                    Add your food and reach thousands of
-                    hungry customers every day.
+                    Add your food and reach thousands of hungry customers every
+                    day.
                   </p>
                   <button
                     className="bg-[#ff4d2d] text-white px-5 sm:px-6 py-2 rounded-full font-medium shadow-md hover:bg-orange-600 transition-colors duration-200"
@@ -83,6 +84,14 @@ function OwnerDashboard() {
                   </button>
                 </div>
               </div>
+            </div>
+          )}
+
+          {myShopData.items.length > 0 && (
+            <div className="flex flex-col items-center gap-4 w-full max-w-3xl">
+              {myShopData.items.map((item, index) => (
+                <OwnerItemcard data={item} key={index} />
+              ))}
             </div>
           )}
         </div>
