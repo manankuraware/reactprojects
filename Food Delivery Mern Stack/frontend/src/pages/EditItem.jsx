@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { FaUtensils } from "react-icons/fa";
 import { useDispatch } from "react-redux";
@@ -9,7 +9,8 @@ import { setMyShopData } from "../redux/ownerSlice";
 
 function EditItem() {
   const navigate = useNavigate();
-
+  const { itemId } = useParams();
+  const [currentItem, setCurrentItem] = useState(null);
   const [name, setName] = useState("");
   const [price, setPrice] = useState(0);
 
@@ -38,7 +39,7 @@ function EditItem() {
         formData.append("image", backendImage);
       }
       const result = await axios.post(
-        `${serverUrl}/api/item/add-item`,
+        `${serverUrl}/api/item/edit-item/${itemId}`,
         formData,
         { withCredentials: true }
       );
@@ -48,6 +49,29 @@ function EditItem() {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    const handleGetItemById = async () => {
+      try {
+        const result = await axios.get(
+          `${serverUrl}/api/item/get-by-id/${itemId}`,
+          { withCredentials: true }
+        );
+        setCurrentItem(result);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    handleGetItemById();
+  }, [itemId]);
+
+  useEffect(() => {
+    setName(currentItem?.name || "");
+    setPrice(currentItem?.price || 0);
+    setCategory(currentItem?.category || "");
+    setFoodType(currentItem?.foodType || "");
+    setFrontendImage(currentItem?.image || "");
+  }, [currentItem]);
   return (
     <div className="flex justify-center items-center flex-col p-6 bg-gradient-to-br from-orange-50 relative to-white min-h-screen">
       <div
@@ -61,7 +85,7 @@ function EditItem() {
           <div className="bg-orange-100 p-4 rounded-full mb-4">
             <FaUtensils className="text-[#ff4d2d] w-16 h-16" />
           </div>
-          <div className="text-3xl font-extrabold text-gray-900">Add Food</div>
+          <div className="text-3xl font-extrabold text-gray-900">Edit Food</div>
         </div>
         <form className="space-y-5" onSubmit={handleSubmit}>
           <div>
