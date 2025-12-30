@@ -14,18 +14,20 @@ function EditItem() {
   const [name, setName] = useState("");
   const [price, setPrice] = useState(0);
 
-  const [frontendImage, setFrontendImage] = useState(null);
+  const [frontendImage, setFrontendImage] = useState("");
   const [backendImage, setBackendImage] = useState(null);
   const [category, setCategory] = useState("");
-  const [foodType, setFoodType] = useState("veg");
+  const [foodType, setFoodType] = useState("");
   const categories = ["Snacks", "Main Course", "Desserts", "Pizza", "Burger"];
 
+  const dispatch = useDispatch();
   const handleImage = (e) => {
     const file = e.target.files[0];
+    console.log("Selected file:", file);
     setBackendImage(file);
     setFrontendImage(URL.createObjectURL(file));
   };
-  const dispatch = useDispatch();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -44,7 +46,7 @@ function EditItem() {
         { withCredentials: true }
       );
       dispatch(setMyShopData(result.data));
-      // console.log(result.data);
+      console.log(result.data);
     } catch (error) {
       console.log(error);
     }
@@ -57,7 +59,7 @@ function EditItem() {
           `${serverUrl}/api/item/get-by-id/${itemId}`,
           { withCredentials: true }
         );
-        setCurrentItem(result);
+        setCurrentItem(result.data);
       } catch (error) {
         console.log(error);
       }
