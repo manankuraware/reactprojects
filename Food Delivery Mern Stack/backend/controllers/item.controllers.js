@@ -46,6 +46,7 @@ export const editItem = async (req, res) => {
         category,
         foodType,
         price,
+        image
       },
       { new: true }
     );

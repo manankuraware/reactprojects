@@ -23,7 +23,7 @@ function EditItem() {
   const dispatch = useDispatch();
   const handleImage = (e) => {
     const file = e.target.files[0];
-    console.log("Selected file:", file);
+    // console.log("Selected file:", file);
     setBackendImage(file);
     setFrontendImage(URL.createObjectURL(file));
   };
