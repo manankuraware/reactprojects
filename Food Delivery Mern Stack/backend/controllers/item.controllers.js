@@ -79,3 +79,23 @@ export const getItemById = async (req, res) => {
     return res.status(500).json({ message: "GetItem Error" });
   }
 };
+
+export const deleteItem = async (req, res) => {
+  try {
+    const itemId = req.params.itemId;
+    const item = await Item.findByIdAndDelete(itemId);
+    if (!item) {
+      return res.status(400).json({ message: "Item not found" });
+    }
+    const shop = await Shop.findOne({ owner: req.userId });
+    shop.items = shop.items.filter((i) => i._id !== item._id);
+    await shop.save();
+    await shop.populate({
+      path: "items",
+      options: { sort: { updatedAt: -1 } },
+    });
+    return res.status(200).json(shop);
+  } catch (error) {
+    return res.status(500).json({ message: "Delete Item Error" });
+  }
+};
