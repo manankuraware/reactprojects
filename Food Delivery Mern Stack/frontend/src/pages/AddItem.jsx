@@ -47,7 +47,7 @@ function AddItem() {
       );
       dispatch(setMyShopData(result.data));
       setLoading(false);
-      navigate("/")
+      navigate("/");
     } catch (error) {
       console.log(error);
       setLoading(false);

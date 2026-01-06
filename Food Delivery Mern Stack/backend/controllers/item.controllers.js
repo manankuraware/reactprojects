@@ -24,7 +24,8 @@ export const addItem = async (req, res) => {
 
     shop.items.push(item._id);
     await shop.save();
-    await shop.populate("owner").populate({
+    await shop.populate("owner");
+    await shop.populate({
       path: "items",
       options: { sort: { updatedAt: -1 } },
     });
@@ -88,7 +89,7 @@ export const deleteItem = async (req, res) => {
       return res.status(400).json({ message: "Item not found" });
     }
     const shop = await Shop.findOne({ owner: req.userId });
-    shop.items = shop.items.filter((i) => i._id !== item._id);
+    shop.items = shop.items.filter((i) => i !== item._id);
     await shop.save();
     await shop.populate({
       path: "items",
