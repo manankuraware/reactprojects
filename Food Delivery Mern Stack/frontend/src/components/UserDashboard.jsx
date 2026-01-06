@@ -11,9 +11,11 @@ function UserDashboard() {
           Inspiration for your first order
         </h1>
         <div className="w-full">
-          {categories.map((cate, index) => (
-            <CategoryCard data={cate} key={index} />
-          ))}
+          <div className="w-full flex overflow-x-auto gap-4 pb-2">
+            {categories.map((cate, index) => (
+              <CategoryCard data={cate} key={index} />
+            ))}
+          </div>
         </div>
       </div>
     </div>
