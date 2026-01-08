@@ -6,14 +6,17 @@ import { FaCircleChevronRight } from "react-icons/fa6";
 import { useEffect, useRef, useState } from "react";
 
 function UserDashboard() {
-  const cateScrollRef = useRef();
+  const cateScrollRef = useRef(null);
   const [showLeftCateButton, setShowLeftCateButton] = useState(false);
   const [showRightCateButton, setShowRightCateButton] = useState(false);
 
   const updateButton = (ref, setLeftButton, setRightButton) => {
     const element = ref.current;
     if (element) {
-      console.log(element.scrollLeft);
+      setLeftButton(element.scrollLeft > 0);
+      setRightButton(
+        element.scrollLeft + element.clientWidth < element.scrollWidth
+      );
     }
   };
   const scrollHandler = (ref, direction) => {
@@ -26,15 +29,25 @@ function UserDashboard() {
   };
 
   useEffect(() => {
-    if (cateScrollRef.current) {
-      cateScrollRef.current.addEventListener("scroll", () => {
-        updateButton(
-          cateScrollRef,
-          setShowLeftCateButton,
-          setShowRightCateButton
-        );
-      });
+    const scrollElement = cateScrollRef.current;
+
+    const handleScroll = () => {
+      updateButton(
+        cateScrollRef,
+        setShowLeftCateButton,
+        setShowRightCateButton
+      );
+    };
+
+    if (scrollElement) {
+      scrollElement.addEventListener("scroll", handleScroll);
+      handleScroll();
     }
+    return () => {
+      if (scrollElement) {
+        scrollElement.removeEventListener("scroll", handleScroll);
+      }
+    };
   }, []);
   return (
     <div className="flex flex-col gap-5 items-center bg-[#fff9f6]">
@@ -44,12 +57,15 @@ function UserDashboard() {
           Inspiration for your first order
         </h1>
         <div className="w-full relative">
-          <button
-            className="absolute left-0 top-1/2 -translate-y-1/2 bg-[#ff4d2d] text-white p-2 rounded-full shadow-lg hover:bg-[#e64528] z-10"
-            onClick={() => scrollHandler(cateScrollRef, "left")}
-          >
-            <FaCircleChevronLeft />
-          </button>
+          {showLeftCateButton && (
+            <button
+              className="absolute left-0 top-1/2 -translate-y-1/2 bg-[#ff4d2d] text-white p-2 rounded-full shadow-lg hover:bg-[#e64528] z-10"
+              onClick={() => scrollHandler(cateScrollRef, "left")}
+            >
+              <FaCircleChevronLeft />
+            </button>
+          )}
+
           <div
             className="w-full flex overflow-x-auto gap-4 pb-2"
             ref={cateScrollRef}
@@ -58,12 +74,14 @@ function UserDashboard() {
               <CategoryCard data={cate} key={index} />
             ))}
           </div>
-          <button
-            className="absolute right-0 top-1/2 -translate-y-1/2 bg-[#ff4d2d] text-white p-2 rounded-full shadow-lg hover:bg-[#e64528] z-10"
-            onClick={() => scrollHandler(cateScrollRef, "right")}
-          >
-            <FaCircleChevronRight />
-          </button>
+          {showRightCateButton && (
+            <button
+              className="absolute right-0 top-1/2 -translate-y-1/2 bg-[#ff4d2d] text-white p-2 rounded-full shadow-lg hover:bg-[#e64528] z-10"
+              onClick={() => scrollHandler(cateScrollRef, "right")}
+            >
+              <FaCircleChevronRight />
+            </button>
+          )}
         </div>
       </div>
     </div>
