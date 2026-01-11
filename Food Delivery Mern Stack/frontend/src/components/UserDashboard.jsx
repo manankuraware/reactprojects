@@ -4,8 +4,10 @@ import CategoryCard from "./CategoryCard";
 import { FaCircleChevronLeft } from "react-icons/fa6";
 import { FaCircleChevronRight } from "react-icons/fa6";
 import { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
 
 function UserDashboard() {
+  const { currentCity } = useSelector((state) => state.user);
   const cateScrollRef = useRef(null);
   const [showLeftCateButton, setShowLeftCateButton] = useState(false);
   const [showRightCateButton, setShowRightCateButton] = useState(false);
@@ -48,7 +50,7 @@ function UserDashboard() {
         scrollElement.removeEventListener("scroll", handleScroll);
       }
     };
-  }, []);
+  }, [categories]);
   return (
     <div className="flex flex-col gap-5 items-center bg-[#fff9f6]">
       <Nav />
@@ -83,6 +85,10 @@ function UserDashboard() {
             </button>
           )}
         </div>
+      </div>
+
+      <div className="w-full max-w-6xl flex flex-col gap-5 items-start p-[10px]">
+        <h1 className="text-gray-800 text-2xl sm:text-3xl">Best Shop in {currentCity}</h1>
       </div>
     </div>
   );
