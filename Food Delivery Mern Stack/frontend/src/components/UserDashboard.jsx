@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 
 function UserDashboard() {
-  const { currentCity } = useSelector((state) => state.user);
+  const { currentCity, shopsInMyCity } = useSelector((state) => state.user);
   const cateScrollRef = useRef(null);
   const shopScrollRef = useRef(null);
   const [showLeftCateButton, setShowLeftCateButton] = useState(false);
@@ -34,14 +34,19 @@ function UserDashboard() {
   };
 
   useEffect(() => {
-    const scrollElement = cateScrollRef.current;
+    const cateElement = cateScrollRef.current;
+    const shopElement = shopScrollRef.current;
 
-    const handleScroll = () => {
+    // 1. Define specific update functions for each slider
+    const handleCateScroll = () => {
       updateButton(
         cateScrollRef,
         setShowLeftCateButton,
         setShowRightCateButton
       );
+    };
+
+    const handleShopScroll = () => {
       updateButton(
         shopScrollRef,
         setShowLeftShopButton,
@@ -49,15 +54,28 @@ function UserDashboard() {
       );
     };
 
-    if (scrollElement) {
-      scrollElement.addEventListener("scroll", handleScroll);
-      handleScroll();
+    // 2. Attach Listeners & Initial Check for Categories
+    if (cateElement) {
+      cateElement.addEventListener("scroll", handleCateScroll);
+      handleCateScroll(); // Check immediately on load
     }
+
+    // 3. Attach Listeners & Initial Check for Shops
+    if (shopElement) {
+      shopElement.addEventListener("scroll", handleShopScroll);
+      handleShopScroll(); // Check immediately on load
+    }
+
+    // 4. Cleanup both listeners
     return () => {
-      if (scrollElement) {
-        scrollElement.removeEventListener("scroll", handleScroll);
+      if (cateElement) {
+        cateElement.removeEventListener("scroll", handleCateScroll);
+      }
+      if (shopElement) {
+        shopElement.removeEventListener("scroll", handleShopScroll);
       }
     };
+    // Add any data dependencies for the shop list here too (e.g. 'shops')
   }, [categories]);
   return (
     <div className="flex flex-col gap-5 items-center bg-[#fff9f6]">
@@ -81,7 +99,11 @@ function UserDashboard() {
             ref={cateScrollRef}
           >
             {categories.map((cate, index) => (
-              <CategoryCard data={cate} key={index} />
+              <CategoryCard
+                name={cate.category}
+                image={cate.image}
+                key={index}
+              />
             ))}
           </div>
           {showRightCateButton && (
@@ -96,9 +118,9 @@ function UserDashboard() {
       </div>
 
       <div className="w-full max-w-6xl flex flex-col gap-5 items-start p-[10px]">
-        <h1 className="text-gray-800 text-2xl sm:text-3xl">
+        <h2 className="text-gray-800 text-2xl sm:text-3xl">
           Best Shop in {currentCity}
-        </h1>
+        </h2>
         <div className="w-full relative">
           {showLeftShopButton && (
             <button
@@ -113,8 +135,8 @@ function UserDashboard() {
             className="w-full flex overflow-x-auto gap-4 pb-2"
             ref={shopScrollRef}
           >
-            {categories.map((cate, index) => (
-              <CategoryCard data={cate} key={index} />
+            {shopsInMyCity.map((shop, index) => (
+              <CategoryCard name={shop.name} image={shop.image} key={index} />
             ))}
           </div>
           {showRightShopButton && (
@@ -126,6 +148,12 @@ function UserDashboard() {
             </button>
           )}
         </div>
+      </div>
+
+      <div className="w-full max-w-6xl flex flex-col gap-5 items-start p-[10px]">
+        <h2 className="text-gray-800 text-2xl sm:text-3xl">
+          Suggested Food Items
+        </h2>
       </div>
     </div>
   );
