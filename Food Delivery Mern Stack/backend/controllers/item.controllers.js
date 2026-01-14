@@ -100,3 +100,19 @@ export const deleteItem = async (req, res) => {
     return res.status(500).json({ message: "Delete Item Error" });
   }
 };
+
+export const getItemByCity = async (req, res) => {
+  try {
+    const { city } = req.params;
+    if (!city) {
+      return res.status(400).json({ message: "City is Required" });
+    }
+    const shops = await Shop.find({
+      city: { $regex: new RegExp(`^${city}$`, "i") },
+    }).populate("items");
+
+    if (!shops) {
+      return res.status(400).json({ message: "Shop not found" });
+    }
+  } catch (error) {}
+};
