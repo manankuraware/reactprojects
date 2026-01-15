@@ -17,7 +17,7 @@ function AddItem() {
   const [frontendImage, setFrontendImage] = useState(null);
   const [backendImage, setBackendImage] = useState(null);
   const [category, setCategory] = useState("");
-  const [foodType, setFoodType] = useState("veg");
+  const [foodType, setFoodType] = useState("");
   const categories = ["Snacks", "Main Course", "Desserts", "Pizza", "Burger"];
   const [loading, setLoading] = useState(false);
 
@@ -79,7 +79,7 @@ function AddItem() {
             <input
               id="addedshopname"
               type="text"
-              placeholder="Enter Shop Name"
+              placeholder="Enter Item Name"
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-orange-500"
               onChange={(e) => setName(e.target.value)}
               value={name}
@@ -164,7 +164,7 @@ function AddItem() {
               value={foodType}
             >
               <option value="veg">Veg</option>
-              <option value="nonveg">Non-Veg</option>
+              <option value="non veg">Non-Veg</option>
             </select>
           </div>
 

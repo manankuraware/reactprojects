@@ -114,5 +114,10 @@ export const getItemByCity = async (req, res) => {
     if (!shops) {
       return res.status(400).json({ message: "Shop not found" });
     }
-  } catch (error) {}
+    const shopIds = shops.map((shop) => shop._id);
+    const items = await Item.find({ shop: { $in: shopIds } });
+    return res.status(200).json(items);
+  } catch (error) {
+    return res.status(500).json({ message: "GetItem by city Error" });
+  }
 };

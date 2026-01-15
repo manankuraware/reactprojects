@@ -106,7 +106,7 @@ function EditItem() {
             <input
               id="addedshopname"
               type="text"
-              placeholder="Enter Shop Name"
+              placeholder="Enter Item Name"
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-orange-500"
               onChange={(e) => setName(e.target.value)}
               value={name}
@@ -191,7 +191,7 @@ function EditItem() {
               value={foodType}
             >
               <option value="veg">Veg</option>
-              <option value="nonveg">Non-Veg</option>
+              <option value="non veg">Non-Veg</option>
             </select>
           </div>
 
