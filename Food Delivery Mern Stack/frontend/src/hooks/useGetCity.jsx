@@ -6,6 +6,7 @@ import {
   setCurrentCity,
   setCurrentState,
 } from "../redux/userSlice";
+import { setAddress, setLocation } from "../redux/mapSlice";
 
 export default function useGetCity() {
   const dispatch = useDispatch();
@@ -16,13 +17,20 @@ export default function useGetCity() {
       // console.log(positon);
       const latitude = positon.coords.latitude;
       const longitude = positon.coords.longitude;
+      dispatch(setLocation({ lat: latitude, lon: longitude }));
       const result = await axios.get(
-        `https://api.geoapify.com/v1/geocode/reverse?lat=${latitude}&lon=${longitude}&format=json&apiKey=${apiKey}`
+        `https://api.geoapify.com/v1/geocode/reverse?lat=${latitude}&lon=${longitude}&format=json&apiKey=${apiKey}`,
       );
       // console.log(result.data.results[0].city);
       dispatch(setCurrentCity(result?.data?.results[0].city));
       dispatch(setCurrentState(result?.data?.results[0].state));
-      dispatch(setCurrentAddress(result?.data?.results[0].address_line1 || result?.data?.results[0].address_line2));
+      dispatch(
+        setCurrentAddress(
+          result?.data?.results[0].address_line1 ||
+            result?.data?.results[0].address_line2,
+        ),
+      );
+      dispatch(setAddress(result?.data?.results[0].address_line2));
     });
   }, [userData, dispatch, apiKey]);
 }
