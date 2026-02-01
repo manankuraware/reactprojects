@@ -6,7 +6,9 @@ import { TbCurrentLocation } from "react-icons/tb";
 import { useDispatch, useSelector } from "react-redux";
 import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { setLocation } from "../redux/mapSlice";
+import { setAddress, setLocation } from "../redux/mapSlice";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 function RecenterMap({ location }) {
   const map = useMap();
@@ -18,13 +20,50 @@ function RecenterMap({ location }) {
 
 function CheckOut() {
   const navigate = useNavigate();
+  const apiKey = import.meta.env.VITE_GEOAPIKEY;
   const { location, address } = useSelector((state) => state.map);
+  const [addressInput, setAddressInput] = useState("");
   const dispatch = useDispatch();
   const onDragEnd = (e) => {
     const { lat, lng } = e.target._latlng;
     dispatch(setLocation({ lat, lon: lng }));
+    getAddressByLatLng(lat, lng);
   };
 
+  const getCurrentLocation = () => {
+    navigator.geolocation.getCurrentPosition(async (positon) => {
+      const latitude = positon.coords.latitude;
+      const longitude = positon.coords.longitude;
+      dispatch(setLocation({ lat: latitude, lon: longitude }));
+      getAddressByLatLng(latitude, longitude);
+    });
+  };
+
+  const getAddressByLatLng = async (lat, lng) => {
+    try {
+      const result = await axios.get(
+        `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lng}&format=json&apiKey=${apiKey}`,
+      );
+      dispatch(setAddress(result?.data?.results[0].address_line2));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getLatlngByAddress = async () => {
+    try {
+      const result = await axios.get(
+        `https://api.geoapify.com/v1/geocode/search?text=${encodeURIComponent(addressInput)}&apiKey=${apiKey}`,
+      );
+      const { lat, lon } = result.data.features[0].properties;
+      dispatch(setLocation({ lat, lon }));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    setAddressInput(address);
+  }, [address]);
   return (
     <div className="min-h-screen bg-[#fff9f6] flex items-center justify-center p-6">
       <div
@@ -45,12 +84,19 @@ function CheckOut() {
               type="text"
               className="flex-1 border border-gray-300 rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#ff4d2d]"
               placeholder="Enter Your Delivery Address.."
-              value={address}
+              value={addressInput}
+              onChange={(e) => setAddressInput(e.target.value)}
             />
-            <button className="bg-[#ff4d2d] hover:bg-[#e64526] text-white px-3 py-2 rounded-lg flex items-center justify-center">
+            <button
+              className="bg-[#ff4d2d] hover:bg-[#e64526] text-white px-3 py-2 rounded-lg flex items-center justify-center"
+              onClick={getLatlngByAddress}
+            >
               <IoSearchOutline size={17} />
             </button>
-            <button className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded-lg flex items-center justify-center">
+            <button
+              className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded-lg flex items-center justify-center"
+              onClick={getCurrentLocation}
+            >
               <TbCurrentLocation size={17} />
             </button>
           </div>
