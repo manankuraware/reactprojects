@@ -124,6 +124,10 @@ function CheckOut() {
             </div>
           </div>
         </section>
+
+        <section>
+          <h2>Payment Method</h2>
+        </section>
       </div>
     </div>
   );
