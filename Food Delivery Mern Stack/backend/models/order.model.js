@@ -6,6 +6,7 @@ const shopOrderItemSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Item",
     },
+    name: String,
     price: Number,
     quantity: Number,
   },
@@ -39,7 +40,7 @@ const orderSchema = new mongoose.Schema(
       required: true,
     },
     deliveryAddress: {
-      type: String,
+      text: String,
       latitude: Number,
       longitude: Number,
     },

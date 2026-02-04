@@ -11,6 +11,7 @@ import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { setAddress, setLocation } from "../redux/mapSlice";
 import axios from "axios";
+import { serverUrl } from "../App";
 import { useEffect, useState } from "react";
 
 function RecenterMap({ location }) {
@@ -68,6 +69,21 @@ function CheckOut() {
       console.log(error);
     }
   };
+
+  const handlePlaceOrder = async () => {
+    try {
+      const result = await axios.post(`${serverUrl}/api/order/place-order`, {
+        paymentMethod,
+        deliveryAddress: { text: addressInput, latitude: location.lat, longitude: location.lon },
+        totalAmount,
+        cartItems
+      }, { withCredentials: true });
+      console.log(result)
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     setAddressInput(address);
   }, [address]);
@@ -203,7 +219,7 @@ function CheckOut() {
           </div>
         </section>
 
-        <button className="w-full bg-[#ff4d2d] hover:bg-[#e64526] text-white py-3 rounded-xl font-semibold">
+        <button className="w-full bg-[#ff4d2d] hover:bg-[#e64526] text-white py-3 rounded-xl font-semibold" onClick={handlePlaceOrder}>
           {paymentMethod == "cod"
             ? "Place Order"
             : "Pay Online and Place Order"}
