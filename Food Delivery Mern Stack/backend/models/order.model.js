@@ -47,7 +47,7 @@ const orderSchema = new mongoose.Schema(
     totalAmount: {
       type: Number,
     },
-    shopOrder: [shopOrderSchema],
+    shopOrders: [shopOrderSchema],
   },
   { timestamps: true },
 );
