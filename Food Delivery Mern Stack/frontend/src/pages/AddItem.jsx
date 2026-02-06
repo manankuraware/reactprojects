@@ -157,12 +157,16 @@ function AddItem() {
               Select Food Type
             </label>
             <select
+              required
               name="foodType"
               id="addedshopfoodtype"
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
               onChange={(e) => setFoodType(e.target.value)}
               value={foodType}
             >
+              <option value="" disabled>
+                Select Food Type
+              </option>
               <option value="veg">Veg</option>
               <option value="non veg">Non-Veg</option>
             </select>
