@@ -41,6 +41,28 @@ function OwnerOrderCard({ data }) {
           </div>
         ))}
       </div>
+
+      <div className="flex justify-between items-center mt-auto pt-3 border-t border-gray-100">
+        <span className="text-sm">
+          Status:{" "}
+          <span className="font-semibold capitalize text-[#ff4d2d]">
+            {data.shopOrders.status}
+          </span>
+        </span>
+
+        <select
+          name="order-status"
+          className="rounded-md border px-3 py-1 text-sm focus:outline-none focus:ring-2 border-[#ff4d2d] text-[#ff4d2d]"
+        >
+          <option value="pending">Pending</option>
+          <option value="preparing">Preparing</option>
+          <option value="out of delivery">Out Of Delivery</option>
+        </select>
+      </div>
+
+      <div className="text-right font-bold text-gray-800 text-sm">
+        Total: ₹{data.shopOrders.subtotal}
+      </div>
     </div>
   );
 }
