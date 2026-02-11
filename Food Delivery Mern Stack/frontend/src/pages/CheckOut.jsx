@@ -13,6 +13,7 @@ import { setAddress, setLocation } from "../redux/mapSlice";
 import axios from "axios";
 import { serverUrl } from "../App";
 import { useEffect, useState } from "react";
+import { addMyOrder } from "../redux/userSlice";
 
 function RecenterMap({ location }) {
   const map = useMap();
@@ -72,14 +73,22 @@ function CheckOut() {
 
   const handlePlaceOrder = async () => {
     try {
-      const result = await axios.post(`${serverUrl}/api/order/place-order`, {
-        paymentMethod,
-        deliveryAddress: { text: addressInput, latitude: location.lat, longitude: location.lon },
-        totalAmount,
-        cartItems
-      }, { withCredentials: true });
-      console.log(result)
-      navigate("/order-placed")
+      const result = await axios.post(
+        `${serverUrl}/api/order/place-order`,
+        {
+          paymentMethod,
+          deliveryAddress: {
+            text: addressInput,
+            latitude: location.lat,
+            longitude: location.lon,
+          },
+          totalAmount,
+          cartItems,
+        },
+        { withCredentials: true },
+      );
+      dispatch(addMyOrder(result.data));
+      navigate("/order-placed");
     } catch (error) {
       console.log(error);
     }
@@ -220,7 +229,10 @@ function CheckOut() {
           </div>
         </section>
 
-        <button className="w-full bg-[#ff4d2d] hover:bg-[#e64526] text-white py-3 rounded-xl font-semibold" onClick={handlePlaceOrder}>
+        <button
+          className="w-full bg-[#ff4d2d] hover:bg-[#e64526] text-white py-3 rounded-xl font-semibold"
+          onClick={handlePlaceOrder}
+        >
           {paymentMethod == "cod"
             ? "Place Order"
             : "Pay Online and Place Order"}
