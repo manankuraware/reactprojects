@@ -22,7 +22,11 @@ export default function useGetCity() {
         `https://api.geoapify.com/v1/geocode/reverse?lat=${latitude}&lon=${longitude}&format=json&apiKey=${apiKey}`,
       );
       // console.log(result.data.results[0].city);
-      dispatch(setCurrentCity(result?.data?.results[0].city));
+      dispatch(
+        setCurrentCity(
+          result?.data?.results[0].city || result?.data?.results[0].county,
+        ),
+      );
       dispatch(setCurrentState(result?.data?.results[0].state));
       dispatch(
         setCurrentAddress(

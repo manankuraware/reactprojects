@@ -111,6 +111,25 @@ export const updateOrderStatus = async (req, res) => {
       return res.status(400).json({ message: "shop order not found" });
     }
     shopOrder.status = status;
+
+    if (status == "out of delivery" || !shopOrder.assignment) {
+      const { longitude, latitude } = order.deliveryAddress;
+      const nearByDeliveryBoys = await User.find({
+        role: "deliveryBoy",
+        location: {
+          $near: {
+            $geometry: {
+              type: "Point",
+              coordinates: [Number(longitude), Number(latitude)],
+              $maxDistance: 5000,
+            },
+          },
+        },
+      });
+
+      
+    }
+
     await shopOrder.save();
     await order.save();
     return res.status(200).json(shopOrder.status);
