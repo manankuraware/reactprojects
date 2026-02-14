@@ -4,8 +4,10 @@ import axios from "axios";
 import { serverUrl } from "../App";
 import { useDispatch } from "react-redux";
 import { updateOrderStatus } from "../redux/userSlice";
+import { useState } from "react";
 
 function OwnerOrderCard({ data }) {
+  const [availableBoys, setAvailableBoys] = useState([]);
   const dispatch = useDispatch();
   const handleUpdateStatus = async (orderId, shopId, status) => {
     try {
@@ -14,8 +16,9 @@ function OwnerOrderCard({ data }) {
         { status },
         { withCredentials: true },
       );
-      console.log(result.data);
+      // console.log(result.data);
       dispatch(updateOrderStatus({ orderId, shopId, status }));
+      setAvailableBoys(result.data.availableBoys);
     } catch (error) {
       console.log(error);
     }

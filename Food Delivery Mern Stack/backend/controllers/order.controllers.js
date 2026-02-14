@@ -112,7 +112,7 @@ export const updateOrderStatus = async (req, res) => {
       return res.status(400).json({ message: "shop order not found" });
     }
     shopOrder.status = status;
-
+    let deliveryBoysPayload = [];
     if (status == "out of delivery" || !shopOrder.assignment) {
       const { longitude, latitude } = order.deliveryAddress;
       const nearByDeliveryBoys = await User.find({
@@ -135,13 +135,43 @@ export const updateOrderStatus = async (req, res) => {
       }).distinct("assignedTo");
       const busyIdSet = new Set(busyIds.map((id) => String(id)));
       const availableBoys = nearByDeliveryBoys.filter(
-        (b) => !busyIdSet.has(b._id),
-      );
+        (b) => !busyIdSet.has(b._id));
+      const candidates = availableBoys.map(b => b._id)
+      if (candidates.length == 0) {
+        await order.save()
+        return res.json({ message: "OrderStatus updated but there is no available delivery boy." })
+      }
+      const deliveryAssignment = await DeliveryAssignment.create({
+        order: order._id,
+        shop: shopOrder.shop,
+        shopOrderId: shopOrder._id,
+        brodcastedTo: candidates,
+        status: "brodcasted"
+      })
+
+      shopOrder.assignedDeliveryBoy = deliveryAssignment.assignedTo;
+      shopOrder.assignment = deliveryAssignment._id;
+      deliveryBoysPayload = availableBoys.map(b => ({
+        id: b._id,
+        fullName: b.fullName,
+        longitude: b.location.coordinates?.[0],
+        latitude: b.location.coordinates?.[1],
+        mobile: b.mobile
+      }))
     }
 
     await shopOrder.save();
     await order.save();
-    return res.status(200).json(shopOrder.status);
+    const updatedShopOrder = order.shopOrders.find(o => o.shop == shopId);
+    await order.populate("shopOrders.shop", "name");
+    await order.populate("shopOrders.assignedDeliveryBoy", "fullName email mobile");
+
+    return res.status(200).json({
+      shopOrder: updatedShopOrder,
+      assignedDeliveryBoy: updatedShopOrder?.assignedDeliveryBoy,
+      availableBoys: deliveryBoysPayload,
+      assignment: updatedShopOrder?.assignment._id
+    });
   } catch (error) {
     return res
       .status(500)
