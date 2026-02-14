@@ -1,6 +1,7 @@
 import Shop from "../models/shop.model.js";
 import Order from "../models/order.model.js";
 import User from "../models/user.model.js";
+import DeliveryAssignment from "../models/deliveryAssignment.model.js";
 
 export const placeOrder = async (req, res) => {
   try {
@@ -127,7 +128,15 @@ export const updateOrderStatus = async (req, res) => {
         },
       });
 
-      
+      const nearByIds = nearByDeliveryBoys.map((b) => b._id);
+      const busyIds = await DeliveryAssignment.find({
+        assignedTo: { $in: nearByIds },
+        status: { $nin: ["brodcasted", "completed"] },
+      }).distinct("assignedTo");
+      const busyIdSet = new Set(busyIds.map((id) => String(id)));
+      const availableBoys = nearByDeliveryBoys.filter(
+        (b) => !busyIdSet.has(b._id),
+      );
     }
 
     await shopOrder.save();
