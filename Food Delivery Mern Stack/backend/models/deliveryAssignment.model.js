@@ -21,6 +21,11 @@ const deliveryAssignmentSchema = new mongoose.Schema(
       },
     ],
     assignedTo: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      default: null
+    },
+    status: {
       type: String,
       enum: ["brodcasted", "assigned", "completed"],
       default: "brodcasted",
