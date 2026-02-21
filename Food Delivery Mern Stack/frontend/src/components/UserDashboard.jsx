@@ -9,7 +9,7 @@ import FoodCard from "./FoodCard";
 
 function UserDashboard() {
   const { currentCity, shopsInMyCity, itemsInMyCity } = useSelector(
-    (state) => state.user
+    (state) => state.user,
   );
   const cateScrollRef = useRef(null);
   const shopScrollRef = useRef(null);
@@ -17,13 +17,26 @@ function UserDashboard() {
   const [showRightCateButton, setShowRightCateButton] = useState(false);
   const [showLeftShopButton, setShowLeftShopButton] = useState(false);
   const [showRightShopButton, setShowRightShopButton] = useState(false);
+  const [updatedItemsList, setUpdatedItemsList] = useState([]);
 
+  const handleFilterByCategory = (category) => {
+    if (category == "All") {
+      setUpdatedItemsList(itemsInMyCity);
+    } else {
+      const filteredList = itemsInMyCity.filter((i) => i.category === category);
+      setUpdatedItemsList(filteredList);
+    }
+  };
+
+  useEffect(() => {
+    setUpdatedItemsList(itemsInMyCity);
+  }, [itemsInMyCity]);
   const updateButton = (ref, setLeftButton, setRightButton) => {
     const element = ref.current;
     if (element) {
       setLeftButton(element.scrollLeft > 0);
       setRightButton(
-        element.scrollLeft + element.clientWidth < element.scrollWidth
+        element.scrollLeft + element.clientWidth < element.scrollWidth,
       );
     }
   };
@@ -45,7 +58,7 @@ function UserDashboard() {
       updateButton(
         cateScrollRef,
         setShowLeftCateButton,
-        setShowRightCateButton
+        setShowRightCateButton,
       );
     };
 
@@ -53,7 +66,7 @@ function UserDashboard() {
       updateButton(
         shopScrollRef,
         setShowLeftShopButton,
-        setShowRightShopButton
+        setShowRightShopButton,
       );
     };
 
@@ -106,6 +119,7 @@ function UserDashboard() {
                 name={cate.category}
                 image={cate.image}
                 key={index}
+                onClick={() => handleFilterByCategory(cate.category)}
               />
             ))}
           </div>
@@ -157,8 +171,8 @@ function UserDashboard() {
         <h2 className="text-gray-800 text-2xl sm:text-3xl">
           Suggested Food Items
         </h2>
-        <div className="w-full h-auto flex flex-wrap gap-[20px] justify-center">
-          {itemsInMyCity?.map((item, index) => (
+        <div className="w-full h-auto flex flex-wrap gap-[20px]">
+          {updatedItemsList?.map((item, index) => (
             <FoodCard key={index} data={item} />
           ))}
         </div>
