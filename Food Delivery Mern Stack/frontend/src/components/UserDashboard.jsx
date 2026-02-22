@@ -6,11 +6,12 @@ import { FaCircleChevronRight } from "react-icons/fa6";
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import FoodCard from "./FoodCard";
+import { useNavigate } from "react-router-dom";
 
 function UserDashboard() {
-  const { currentCity, shopsInMyCity, itemsInMyCity } = useSelector(
-    (state) => state.user,
-  );
+  const { currentCity, shopsInMyCity, itemsInMyCity, searchItems } =
+    useSelector((state) => state.user);
+  const navigate = useNavigate();
   const cateScrollRef = useRef(null);
   const shopScrollRef = useRef(null);
   const [showLeftCateButton, setShowLeftCateButton] = useState(false);
@@ -29,6 +30,7 @@ function UserDashboard() {
   };
 
   useEffect(() => {
+    console.log(searchItems);
     setUpdatedItemsList(itemsInMyCity);
   }, [itemsInMyCity]);
   const updateButton = (ref, setLeftButton, setRightButton) => {
@@ -96,6 +98,25 @@ function UserDashboard() {
   return (
     <div className="flex flex-col gap-5 items-center bg-[#fff9f6]">
       <Nav />
+
+      {searchItems && searchItems.length > 0 && (
+        <div
+          className="w-full max-w-6xl flex flex-col gap-5 items-start p-5
+     bg-white shadow-md rounded-2xl mt-4"
+        >
+          <h1
+            className=" text-gray-900 text-2xl sm:text-3xl font-semibold border-b
+ border-gray-200 pb-2"
+          >
+            Search Results
+          </h1>
+          <div className="w-full h-auto flex flex-wrap gap-6 justify-center">
+            {searchItems.map((item) => (
+              <FoodCard data={item} key={item._id} />
+            ))}
+          </div>
+        </div>
+      )}
       <div className="w-full max-w-6xl flex flex-col gap-5 items-start p-[10px]">
         <h1 className="text-gray-800 text-2xl sm:text-3xl">
           Inspiration for your first order
@@ -111,7 +132,7 @@ function UserDashboard() {
           )}
 
           <div
-            className="w-full flex overflow-x-auto gap-4 pb-2"
+            className="w-screen md:w-full flex overflow-x-auto gap-4 pb-2"
             ref={cateScrollRef}
           >
             {categories.map((cate, index) => (
@@ -153,7 +174,12 @@ function UserDashboard() {
             ref={shopScrollRef}
           >
             {shopsInMyCity.map((shop, index) => (
-              <CategoryCard name={shop.name} image={shop.image} key={index} />
+              <CategoryCard
+                name={shop.name}
+                image={shop.image}
+                key={index}
+                onClick={() => navigate(`/shop/${shop._id}`)}
+              />
             ))}
           </div>
           {showRightShopButton && (
@@ -171,7 +197,7 @@ function UserDashboard() {
         <h2 className="text-gray-800 text-2xl sm:text-3xl">
           Suggested Food Items
         </h2>
-        <div className="w-full h-auto flex flex-wrap gap-[20px]">
+        <div className="w-full h-auto flex flex-wrap gap-[20px] justify-center md:justify-start">
           {updatedItemsList?.map((item, index) => (
             <FoodCard key={index} data={item} />
           ))}
