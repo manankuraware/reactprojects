@@ -47,7 +47,10 @@ function App() {
         // emit to send event
       }
     });
-  }, []);
+    return () => {
+      socketInstance.disconnect();
+    };
+  }, [userData?._id]);
   return (
     <Routes>
       <Route
