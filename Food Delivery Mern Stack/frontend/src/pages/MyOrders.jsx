@@ -5,7 +5,7 @@ import { IoIosArrowRoundBack } from "react-icons/io";
 import UserOrderCard from "../components/UserOrderCard";
 import OwnerOrderCard from "../components/OwnerOrdercard";
 import { useEffect } from "react";
-import { setMyOrders } from "../redux/userSlice";
+import { setMyOrders, updateRealtimeOrderStatus } from "../redux/userSlice";
 
 function MyOrders() {
   const { userData, myOrders, socket } = useSelector((state) => state.user);
@@ -17,8 +17,14 @@ function MyOrders() {
         dispatch(setMyOrders([data, ...myOrders]));
       }
     });
+    socket?.on("update-status", ({ orderId, shopId, status, userId }) => {
+      if (userId == userData._id) {
+        dispatch(updateRealtimeOrderStatus({ orderId, shopId, status }));
+      }
+    });
     return () => {
       socket?.off("newOrder");
+      socket?.off("update-status");
     };
   }, [socket]);
   return (
