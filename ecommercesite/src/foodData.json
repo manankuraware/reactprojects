@@ -1,0 +1,74 @@
+[
+    {
+        "id": 1,
+        "name": "Cheese Burger",
+        "price": 120,
+        "rating": 4.5,
+        "image": "https://images.unsplash.com/photo-1550547660-d9450f859349",
+        "description": "Juicy grilled beef patty with melted cheese, lettuce, and tomato."
+    },
+    {
+        "id": 2,
+        "name": "Margherita Pizza",
+        "price": 250,
+        "rating": 4.7,
+        "image": "https://images.unsplash.com/photo-1604382355076-af4b0eb60143",
+        "description": "Classic pizza with fresh mozzarella, basil, and tomato sauce."
+    },
+    {
+        "id": 3,
+        "name": "Chicken Biryani",
+        "price": 220,
+        "rating": 4.8,
+        "image": "https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a",
+        "description": "Aromatic basmati rice cooked with tender chicken and spices."
+    },
+    {
+        "id": 4,
+        "name": "Veg Momos",
+        "price": 90,
+        "rating": 4.3,
+        "image": "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec",
+        "description": "Steamed dumplings filled with fresh vegetables and herbs."
+    },
+    {
+        "id": 6,
+        "name": "Paneer Tikka",
+        "price": 200,
+        "rating": 4.6,
+        "image": "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b",
+        "description": "Grilled paneer cubes marinated with yogurt and spices."
+    },
+    {
+        "id": 7,
+        "name": "French Fries",
+        "price": 80,
+        "rating": 4.2,
+        "image": "https://images.unsplash.com/photo-1576107232684-1279f390859f",
+        "description": "Crispy golden fries served with tomato ketchup."
+    },
+    {
+        "id": 8,
+        "name": "Chicken Tacos",
+        "price": 160,
+        "rating": 4.5,
+        "image": "https://images.unsplash.com/photo-1551504734-5ee1c4a1479b",
+        "description": "Soft tacos filled with spicy chicken and fresh vegetables."
+    },
+    {
+        "id": 9,
+        "name": "Chocolate Cake",
+        "price": 140,
+        "rating": 4.9,
+        "image": "https://images.unsplash.com/photo-1578985545062-69928b1d9587",
+        "description": "Rich and moist chocolate cake topped with chocolate glaze."
+    },
+    {
+        "id": 10,
+        "name": "Cold Coffee",
+        "price": 110,
+        "rating": 4.4,
+        "image": "https://images.unsplash.com/photo-1517701604599-bb29b565090c",
+        "description": "Refreshing chilled coffee blended with milk and ice cream."
+    }
+]
