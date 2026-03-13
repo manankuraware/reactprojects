@@ -1,7 +1,10 @@
 import { NavLink } from "react-router-dom";
 import { AiOutlineShoppingCart } from "react-icons/ai";
+import { useContext } from "react";
+import { ThemeContext } from "../context/ThemeContext";
 
 export const Header = () => {
+  const { theme, toggleTheme } = useContext(ThemeContext);
   return (
     <div className="section-border">
       <div className="container">
@@ -41,7 +44,14 @@ export const Header = () => {
                 <AiOutlineShoppingCart size={20} />
                 <span className="badge">3</span>
               </div>
-              <div className="toggle-mode"></div>
+              <div className="toggle-mode">
+                <button
+                  onClick={toggleTheme}
+                  className={`${theme === "light" ? "Dark" : "Light"}`}
+                >
+                  <div className="themedot"></div>
+                </button>
+              </div>
             </div>
           </div>
         </header>

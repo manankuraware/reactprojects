@@ -16,7 +16,6 @@
 }
 
 .hero-container span.hero-tag {
-    background: #e4e4e4;
     letter-spacing: 0;
     text-transform: capitalize;
     line-height: 100%;
@@ -61,7 +60,7 @@
 }
 
 .hero-buttons .about-btn {
-    background: none;
+    background: #fff;
 }
 
 @keyframes bounce {

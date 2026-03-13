@@ -4,6 +4,21 @@
     margin: 0;
 }
 
+body.light {
+    --bg-color: white;
+    --text-color: black;
+}
+
+body.dark {
+    --bg-color: #121212;
+    --text-color: white;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
 .container {
     max-width: 1230px;
     width: 100%;
@@ -33,16 +48,16 @@ ul.header-navitems {
 }
 
 .section-border {
-    border-bottom: 1px solid #0000001f;
+    border-bottom: 1px solid var(--text-color);
     position: sticky;
     top: 0;
-    background: #fff;
+    background: var(--bg-color);
     z-index: 999;
 }
 
 .header-navitems a {
     text-decoration: none;
-    color: #000;
+    color: var(--text-color);
     text-transform: uppercase;
     font-weight: 600;
 }
@@ -55,13 +70,18 @@ ul.header-navitems {
     top: -5px;
     right: -10px;
     border-radius: 50%;
-    border: 1px solid black;
+    border: 1px solid var(--text-color);
     width: 16px;
     height: 16px;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #fff;
+    color: var(--text-color);
+    background: var(--bg-color);
+}
+
+.cart svg {
+    color: var(--text-color);
 }
 
 .cart {
@@ -76,5 +96,34 @@ ul.header-navitems {
 }
 
 footer {
-    border-top: 1px solid #00000036;
+    border-top: 1px solid var(--text-color);
+}
+
+.toggle-mode button {
+    width: 40px;
+    height: 15px;
+    background: transparent;
+    border-radius: 50px;
+    overflow: hidden;
+    border: 1px solid var(--text-color);
+    display: flex;
+    transition: all ease 0.2s;
+    cursor: pointer;
+}
+
+button.Light {
+    justify-content: end;
+}
+
+.nav-icons {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+button .themedot {
+    width: 24px;
+    height: 15px;
+    border-radius: 40px;
+    background-color: var(--text-color);
 }

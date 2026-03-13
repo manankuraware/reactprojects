@@ -1,0 +1,15 @@
+.table-header {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    margin: 30px 0;
+}
+
+.row-items {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    margin: 30px 0;
+}
+
+.virtual-list {
+    width: 100% !important;
+}

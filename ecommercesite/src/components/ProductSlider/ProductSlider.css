@@ -16,6 +16,7 @@
     text-transform: capitalize;
     letter-spacing: 0;
     line-height: 100%;
+    color: var(--text-color);
 }
 
 .prodsliderheading p {
@@ -24,6 +25,7 @@
     letter-spacing: 0;
     line-height: 100%;
     opacity: 0.76;
+    color: var(--text-color);
 }
 
 .productsliderheader {
@@ -49,6 +51,14 @@
     display: inline-flex;
 }
 
+.prodsliderbuttons svg {
+    color: var(--text-color);
+}
+
+.prodsliderbuttons button {
+    border: 1px solid var(--text-color);
+}
+
 .prodsliderpricewrapper {
     display: flex;
     align-items: center;
@@ -57,7 +67,7 @@
 }
 
 .productitem {
-    border: 1px solid #00000094;
+    border: 1px solid var(--text-color);
     padding: 4px;
     border-radius: 5px;
 }
