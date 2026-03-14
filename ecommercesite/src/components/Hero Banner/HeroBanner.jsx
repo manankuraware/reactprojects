@@ -1,4 +1,4 @@
-import heroImg from "../../assets/hero.jpg";
+import heroImg from "../../assets/hero.webp";
 import { IoFastFoodOutline } from "react-icons/io5";
 import { MdArrowOutward } from "react-icons/md";
 import "./HeroBanner.css";

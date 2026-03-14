@@ -127,3 +127,33 @@ button .themedot {
     border-radius: 40px;
     background-color: var(--text-color);
 }
+
+.formwrapper {
+    margin: 30px auto;
+    max-width: 500px;
+    width: 100%;
+    border: 1px solid #61c318;
+    padding: 20px;
+    border-radius: 20px;
+}
+
+.formwrapper input,
+.formwrapper textarea {
+    display: inline-block;
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    resize: none;
+}
+
+.formwrapper div {
+    margin-bottom: 15px;
+}
+
+.formwrapper button {
+    background: #96e025;
+    color: #fff;
+    padding: 10px 33px;
+    border: none;
+    text-transform: uppercase;
+}
